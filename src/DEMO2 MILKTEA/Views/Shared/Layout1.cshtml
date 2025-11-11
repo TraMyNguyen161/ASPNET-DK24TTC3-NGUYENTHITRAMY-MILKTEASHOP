@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TIỆM TRÀ SỮA MILK TEA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('https://i.imgur.com/WbQb8BA.jpeg');
+            background-size: contain;
+        }
+
+        header {
+            position: relative;
+            height: 600px;
+            text-align: center;
+            padding: 20px 0;
+            background-image: url('https://i.imgur.com/elwUW1J.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+            nav {
+            background-color:;
+            display: flex;
+            justify-content: center;
+            }
+
+            nav {
+            display: flex;
+            gap: 25px; /* giãn đều giữa các nút */
+             }
+            /* Khi nút được chọn (active) */
+            nav a {
+                color: #b84e6a;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 10px 22px;
+                border-radius: 25px;
+                padding: 20px 40px;
+                border: 2px solid rgba(255, 182, 193, 0.5); /* 🌸 viền hồng mờ 50% */
+                transition: all 0.3s ease;
+            }
+
+            nav a.active {
+                    background-color: #ff7b9c;
+                    color: white;
+                    border-color: #ff7b9c;
+                }
+            nav a:hover {
+                    background-color: #ff9bb3;
+                    color: white;
+                    transform: translateY(-2px);
+                    box-shadow: 0 3px 10px rgba(255, 182, 193, 0.6);
+                }
+                          
+            nav a:hover {
+                    background-color: #99CCCC;
+                }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px auto;
+            max-width: 1000px;
+        }
+
+        .product {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 15px;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+            .product:hover {
+                transform: scale(1.05);
+            }
+
+            header img {
+            padding: 60px 60px 60px 60px;
+            width: 250px; /* Kích thước logo */
+            height: 250px;
+            border-radius: 50%; /* Bo tròn logo nếu muốn */
+        }
+
+            .product img {
+                width: 100%;
+                border-radius: 10px;
+            }
+
+            .product h3 {
+                margin: 10px 0 5px;
+            }
+
+            .product p {
+                color: #555;
+            }
+
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #ff3b3b;
+            }
+
+            footer {
+            background-color: #333;
+            color: white;
+            text-align: left;
+            height: 200px;
+        }
+    </style>
+    </head>
+<body>
+    <header>
+        <img src="https://i.imgur.com/R57ULYt.jpeg" alt="Logo Cửa Hàng">
+        <div>
+            
+        </div>
+    </header>
+
+    <nav>
+        
+        <a href="#" class="active">Trang chủ</a>
+        <a href="#" class="active">Sản phẩm</a>
+        <a href="#" class="active">Giới thiệu</a>
+        <a href="#" class="active">Liên hệ</a>
+    </nav>
+
+    <div class="container">
+        <div class="product">
+            <img src="https://i.imgur.com/aViAKbH.jpeg" alt="">
+            <h3>Trà Sữa Truyền Thống</h3>
+            <p>Chân châu đường đen, chocolate, mattcha,...</p>
+            <div class="price">32.000đ</div>
+            <button class="btn">Đặt ngay</button>
+        </div>
+
+        <div class="product">
+            <img src="https://i.imgur.com/A9veVoT.jpeg" alt="">
+            <h3>Trà Trái Cây</h3>
+            <p>Trà trái cây nhiệt đới, trà dưa lưới, hồng trà,...</p>
+            <div class="price">35.000đ</div>
+            <button class="btn">Đặt ngay</button>
+        </div>
+
+        <div class="product">
+            <img src="https://i.imgur.com/Fw6JQ5I.jpeg" alt="">
+            <h3>Sinh Tố</h3>
+            <p>Mãng cầu, dâu, xoài, bơ, sầu riêng,....</p>
+            <div class="price">40.000đ </div>
+            <button class="btn">Đặt ngay</button>
+        </div>
+        <div class="product">
+            <img src="https://i.imgur.com/M3YHdou.jpeg" />
+            <h3>Soda</h3>
+            <p>Soda dâu, dưa lưới, đào, việt quất</p>
+            <div class="price">42.000đ</div>
+            <buttton class="btn">Đặt ngay</buttton>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-2">Theo dõi chúng tôi:</p>
+            <div class="d-flex justify-content-center gap-3 mb-3">
+                <a href="https://Zalo.me/0389104781" class="text-white"><i class="bi bi-facebook fs-4"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-twitter fs-4"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-instagram fs-4"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
