@@ -1,5 +1,543 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    Layout = "~/Views/Shared/Layout1.cshtml"; 
-}
-<h1></h1>
+﻿<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pink Milk Tea — Cửa hàng trà sữa</title>
+    <style>
+        :root {
+            --pink-50: #fff5f8;
+            --pink-100: #ffe9f0;
+            --pink-200: #ffd0e3;
+            --pink-400: #ff97c1;
+            --pink-600: #ff5aa3;
+            --text: #333;
+            --muted: #7a7a7a;
+            --card-shadow: 0 8px 24px rgba(255,130,170,0.12);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg,var(--pink-50),#fff);
+            color: var(--text);
+        }
+
+        /* Header */
+        .topbar {
+            background: linear-gradient(90deg,var(--pink-200),var(--pink-50));
+            border-bottom: 1px solid rgba(255,90,163,0.08);
+            backdrop-filter: blur(4px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,var(--pink-400),var(--pink-600));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            box-shadow: var(--card-shadow)
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+            nav a {
+                padding: 8px 12px;
+                border-radius: 10px;
+                text-decoration: none;
+                color: var(--text);
+                font-weight: 600
+            }
+
+                nav a.active {
+                    background: rgba(255,90,163,0.12);
+                    color: var(--pink-600)
+                }
+
+        /* Search & cart */
+        .tools {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 6px 8px;
+            border-radius: 999px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+            min-width: 220px
+        }
+
+            .search input {
+                border: 0;
+                outline: 0;
+                background: transparent;
+                padding: 6px;
+                font-size: 14px
+            }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 0;
+            cursor: pointer
+        }
+
+        .cart-count {
+            background: var(--pink-600);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-weight: 700
+        }
+
+        /* Main */
+        main {
+            padding: 28px 0
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px;
+            border-radius: 18px;
+            background: linear-gradient(90deg,rgba(255,90,163,0.06),rgba(255,154,186,0.03));
+            box-shadow: 0 10px 30px rgba(255,130,170,0.06)
+        }
+
+            .hero .left {
+                flex: 1
+            }
+
+            .hero h2 {
+                margin: 0 0 8px 0;
+                font-size: 28px
+            }
+
+            .hero p {
+                margin: 0;
+                color: var(--muted)
+            }
+
+            .hero .cta {
+                margin-top: 12px;
+                padding: 10px 16px;
+                border-radius: 12px;
+                background: var(--pink-600);
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-weight: 700
+            }
+
+        /* Products grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+            gap: 16px;
+            margin-top: 20px
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .thumb {
+            height: 160px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg,var(--pink-100),var(--pink-200));
+        }
+
+            .thumb img {
+                max-height: 140px;
+                max-width: 100%
+            }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .price {
+            font-weight: 800;
+            color: var(--pink-600)
+        }
+
+        .add {
+            padding: 8px;
+            border-radius: 8px;
+            border: 0;
+            background: linear-gradient(90deg,var(--pink-400),var(--pink-600));
+            color: white;
+            cursor: pointer;
+            font-weight: 700
+        }
+
+        /* Cart page */
+        .cart-page {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow)
+        }
+
+        .cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .qty {
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+            .qty button {
+                padding: 6px 8px;
+                border-radius: 8px;
+                border: 0;
+                cursor: pointer
+            }
+
+        /* Footer */
+        footer {
+            margin-top: 28px;
+            padding: 20px 0;
+            background: transparent
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: flex-start
+        }
+
+        .footer-col {
+            min-width: 180px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        /* Responsive */
+        
+        
+            .header
+        {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px
+        }
+
+        .search {
+            min-width: 140px
+        }
+
+        .hero {
+            flex-direction: column
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="container header">
+            <div class="brand">
+                <div>
+                    <img src="https://i.imgur.com/cyS0xaX.jpeg" class="logo" alt="Logo Trà Sữa">
+                </div>
+                <div>
+                    <h1>Pink Tea — Trà sữa nhà Hồng</h1>
+                    <div class="muted">Ngọt Dịu</div>
+                </div>
+                <nav id="nav">
+                    <a href="#" data-view="home" class="active">Trang chủ</a>
+                    <a href="#" data-view="products">Sản phẩm</a>
+                    <a href="#" data-view="cart">Giỏ hàng</a>
+                </nav>
+                <div class="tools">
+                    <div class="search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="11" cy="11" r="6" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <input id="searchInput" placeholder="Tìm sản phẩm, ví dụ: Trà sữa trân châu" />
+                    </div>
+                    <button class="cart-btn" id="cartBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="10" cy="20" r="1" fill="#333" /><circle cx="18" cy="20" r="1" fill="#333" /></svg> <span class="cart-count" id="cartCount">0</span></button>
+                </div>
+            </div>
+                        
+            </div>
+    </div>
+
+    <main class="container">
+        <!-- Home view -->
+        <section id="view-home">
+            <div class="hero">
+                <div class="left">
+                    <h2>Chào mừng đến Pink Tea</h2>
+                    <p>Trà sữa ngon — hương vị thơm mát - trân châu dai — giao tận nơi.</p>
+                    <button class="cta" data-view="products">Xem sản phẩm</button>
+                </div>
+                <div class="right" style="width:320px">
+                    <div style="background:linear-gradient(180deg,var(--pink-100),white);padding:12px;border-radius:12px">
+                        <strong>Khuyến mãi:</strong>
+                        <div class="muted">Giảm 10% cho đơn hàng đầu tiên (mã: PINK10)</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top:18px">Sản phẩm nổi bật</h3>
+            <div id="featuredGrid" class="grid"></div>
+        </section>
+
+        <!-- Products view -->
+        <section id="view-products" style="display:none">
+            <h2>Sản phẩm</h2>
+            <div id="productsGrid" class="grid"></div>
+        </section>
+
+        <!-- Cart view -->
+        <section id="view-cart" style="display:none">
+            <h2>Giỏ hàng</h2>
+            <div class="cart-page">
+                <div id="cartList" class="cart-list"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+                    <div class="muted">Thanh toán an toàn — Giao hàng trong 60 phút (với khu vực gần)</div>
+                    <div>
+                        <strong>Tổng: <span id="cartTotal">0₫</span></strong>
+                        <button id="checkoutBtn" class="add" style="margin-left:12px">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <h4>Chính sách</h4>
+                <div class="muted">Hoàn trả 7 ngày • Bảo hành chất lượng • Giao hàng & thanh toán</div>
+            </div>
+            <div class="footer-col">
+                <h4>Liên hệ</h4>
+                <div>Địa chỉ: 123 Đường Hồng, Quận Hồng</div>
+                <div>Điện thoại: <strong>+84 912 345 678</strong></div>
+            </div>
+            <div class="footer-col">
+                <h4>Kết nối</h4>
+                <div>Facebook: <a href="#">/PinkTeaOfficial</a></div>
+                <div>Zalo: <a href="#">0901234567</a></div>
+            </div>
+            <div class="footer-col muted">© <span id="yr"></span> Pink Tea — Thiết kế & code demo</div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample products
+        const products = [
+          {id:'p1',name:'Trà sữa trân châu',price:39000,desc:'Hương dâu nhẹ, trân châu dai', img:'https://i.imgur.com/ikCKEyM.jpeg'},
+          {id:'p2',name:'Trà sữa hồng nhài',price:42000,desc:'Hương nhài thanh mát', img:'https://i.imgur.com/C5R2zQK.jpeg'},
+          {id:'p3',name:'Trà sữa hồng sương sáo',price:47000,desc:'Sương sáo mát lạnh', img:'https://i.imgur.com/ikCKEyM.jpeg'},
+          {id:'p4',name:'Trà sữa hồng kem phô mai',price:52000,desc:'Kem phô mai beo béo', img:'https://i.imgur.com/ikCKEyM.jpeg'},
+          {id:'p5',name:'Trà sữa hồng đá xay',price:56000,desc:'Đá xay mát lạnh', img:'https://i.imgur.com/ikCKEyM.jpeg'}
+        ];
+
+        // Utility: format currency (Vietnamese Dong)
+        function fmt(v){return v.toLocaleString('vi-VN') + '₫'}
+
+        // Render helpers
+        const productsGrid = document.getElementById('productsGrid');
+        const featuredGrid = document.getElementById('featuredGrid');
+        const cartCountEl = document.getElementById('cartCount');
+        const cartListEl = document.getElementById('cartList');
+        const cartTotalEl = document.getElementById('cartTotal');
+
+        function createCard(p){
+          const el = document.createElement('div');el.className='card';
+          el.innerHTML = `
+            <div class="thumb"><img src="https://i.imgur.com/ikCKEyM.jpeg;utf8,${encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"400\"><rect width=\"100%\" height=\"100%\" fill=\"#ffe6f0\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"#ff5aa3\" font-size=\"36\">'+p.name+'</text></svg>')}" alt="${p.name}"/></div>
+            <div>
+              <div style="font-weight:700">${p.name}</div>
+              <div class="muted" style="font-size:13px">${p.desc}</div>
+            </div>
+            <div class="meta">
+              <div class="price">${fmt(p.price)}</div>
+              <button class="add" data-id="${p.id}">Thêm</button>
+            </div>
+          `;
+          return el;
+        }
+
+        function renderProducts(filter=''){
+          productsGrid.innerHTML='';
+          const list = products.filter(p=>p.name.toLowerCase().includes(filter.toLowerCase())||p.desc.toLowerCase().includes(filter.toLowerCase()));
+          list.forEach(p=>productsGrid.appendChild(createCard(p)));
+        }
+        function renderFeatured(){
+          featuredGrid.innerHTML='';
+          products.slice(0,4).forEach(p=>featuredGrid.appendChild(createCard(p)));
+        }
+
+        // Cart (localStorage)
+        let cart = JSON.parse(localStorage.getItem('pinkCart')||'{}');
+        function saveCart(){localStorage.setItem('pinkCart',JSON.stringify(cart));updateCartUI();}
+        function addToCart(id){cart[id] = (cart[id]||0)+1;saveCart();}
+        function removeFromCart(id){delete cart[id];saveCart();}
+        function setQty(id,q){if(q<=0) removeFromCart(id); else {cart[id]=q;saveCart();}}
+
+        function updateCartUI(){
+          const totalItems = Object.values(cart).reduce((a,b)=>a+b,0);
+          cartCountEl.textContent = totalItems;
+          // render cart list
+          cartListEl.innerHTML='';
+          let total=0;
+          if(totalItems===0){cartListEl.innerHTML='<div class="muted">Giỏ hàng trống.</div>'}
+          for(const id in cart){
+            const p = products.find(x=>x.id===id);
+            if(!p) continue;
+            const qty = cart[id];
+            const item = document.createElement('div');item.className='cart-item';
+            item.innerHTML = `
+              <div style="flex:0 0 64px;background:linear-gradient(180deg,#fff0f5,#ffe6f0);border-radius:8px;padding:8px;text-align:center">${p.name.split(' ')[0]}</div>
+              <div style="flex:1">
+                <div style="font-weight:700">${p.name}</div>
+                <div class="muted">${fmt(p.price)} x ${qty} = <strong>${fmt(p.price*qty)}</strong></div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                <div class="qty"><button data-op="dec" data-id="${id}">-</button><div style="padding:6px 8px;border-radius:8px;background:#fff">${qty}</div><button data-op="inc" data-id="${id}">+</button></div>
+                <button data-op="rm" data-id="${id}" style="padding:6px 8px;border-radius:8px;border:0;background:transparent;cursor:pointer;color:#c33">Xóa</button>
+              </div>
+            `;
+            cartListEl.appendChild(item);
+            total += p.price * qty;
+          }
+          cartTotalEl.textContent = fmt(total);
+        }
+
+        // Event delegation for add buttons
+        document.addEventListener('click',e=>{
+          if(e.target.matches('.add')){
+            const id = e.target.dataset.id;
+            if(id){ addToCart(id); alert('Đã thêm sản phẩm vào giỏ hàng'); }
+          }
+          if(e.target.closest('#nav a')){
+            e.preventDefault();
+            const v = e.target.dataset.view;
+            if(v) showView(v);
+            // set active
+            document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));
+            e.target.classList.add('active');
+          }
+          if(e.target.id==='cartBtn'){ showView('cart'); }
+          if(e.target.dataset.op){
+            const op = e.target.dataset.op; const id = e.target.dataset.id;
+            if(op==='inc') setQty(id,(cart[id]||0)+1);
+            if(op==='dec') setQty(id,(cart[id]||0)-1);
+            if(op==='rm') removeFromCart(id);
+          }
+          if(e.target.id==='checkoutBtn'){
+            if(Object.keys(cart).length===0){alert('Giỏ hàng trống!')} else {
+              alert('Cảm ơn! Giỏ hàng đã được gửi (demo)'); cart = {}; saveCart(); showView('home');
+            }
+          }
+          if(e.target.matches('.cta')){
+            const v = e.target.dataset.view; if(v) showView(v);
+          }
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input',e=>{
+          const q = e.target.value;
+          renderProducts(q);
+          renderFeatured();
+          // if user is in products view, keep it
+          const prodView = document.getElementById('view-products');
+          if(prodView.style.display==='none'){
+            // nothing
+          } else {
+            // show filtered products
+          }
+        });
+
+        // Views
+        function showView(name){
+          ['home','products','cart'].forEach(v=>document.getElementById('view-'+v).style.display = (v===name)?'block':'none');
+          // set nav active
+          document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active', a.dataset.view===name));
+          if(name==='products') renderProducts(document.getElementById('searchInput').value||'');
+          if(name==='home') renderFeatured();
+          if(name==='cart') updateCartUI();
+        }
+
+        // Init
+        document.getElementById('yr').textContent = new Date().getFullYear();
+        renderFeatured(); renderProducts(); updateCartUI();
+
+        // Attach add-to-cart for programmatically created cards
+        productsGrid.addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
+        featuredGrid.addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
+    </script>
+</body>
+</html>

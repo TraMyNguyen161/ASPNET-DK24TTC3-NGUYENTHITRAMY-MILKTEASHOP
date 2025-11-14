@@ -23,6 +23,11 @@ namespace DEMO2_MILKTEA.Controllers
             return View();
         }
 
+        public IActionResult Card()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
