@@ -1,10 +1,17 @@
-﻿<!doctype html>
+﻿@model IEnumerable<MILKTEASHOP.Models.Product>
+
+@{
+    Layout = null; /* Tắt layout mặc định để dùng full code của bạn */
+}
+
+<!doctype html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pink Milk Tea — Cửa hàng trà sữa</title>
     <style>
+        /* --- GIỮ NGUYÊN CSS CỦA BẠN 100% --- */
         :root {
             --pink-50: #fff5f8;
             --pink-100: #ffe9f0;
@@ -25,6 +32,8 @@
             margin: 0;
             background: linear-gradient(180deg,var(--pink-50),#fff);
             color: var(--text);
+            background-image: url(https://i.imgur.com/QJkAj1w.png);
+            background-size: contain;
         }
 
         /* Header */
@@ -197,12 +206,15 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(180deg,var(--pink-100),var(--pink-200));
+            overflow: hidden; /* Thêm overflow hidden để ảnh không tràn */
         }
 
             .thumb img {
                 max-height: 140px;
-                max-width: 100%
+                max-width: 100%;
+                object-fit: contain;
             }
+        /* Chỉnh lại ảnh cho gọn */
 
         .meta {
             display: flex;
@@ -282,9 +294,9 @@
         }
 
         /* Responsive */
-        
-        
+        @@media (max-width: 768px) {
             .header
+
         {
             flex-direction: column;
             align-items: flex-start;
@@ -303,6 +315,7 @@
     </style>
 </head>
 <body>
+
     <div class="topbar">
         <div class="container header">
             <div class="brand">
@@ -313,26 +326,27 @@
                     <h1>Pink Tea — Trà sữa nhà Hồng</h1>
                     <div class="muted">Ngọt Dịu</div>
                 </div>
-                <nav id="nav">
-                    <a href="#" data-view="home" class="active">Trang chủ</a>
-                    <a href="#" data-view="products">Sản phẩm</a>
-                    <a href="#" data-view="cart">Giỏ hàng</a>
-                </nav>
-                <div class="tools">
-                    <div class="search">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="11" cy="11" r="6" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                        <input id="searchInput" placeholder="Tìm sản phẩm, ví dụ: Trà sữa trân châu" />
-                    </div>
-                    <button class="cart-btn" id="cartBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="10" cy="20" r="1" fill="#333" /><circle cx="18" cy="20" r="1" fill="#333" /></svg> <span class="cart-count" id="cartCount">0</span></button>
+            </div>
+            <nav id="nav">
+                <a href="#" data-view="home" class="active">Trang chủ</a>
+                <a href="#" data-view="products">Sản phẩm</a>
+                <a href="#" data-view="cart">Giỏ hàng</a>
+            </nav>
+            <div class="tools">
+                <div class="search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="11" cy="11" r="6" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    <input id="searchInput" placeholder="Tìm sản phẩm, ví dụ: Trà sữa trân châu" />
                 </div>
+                <button class="cart-btn" id="cartBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="10" cy="20" r="1" fill="#333" /><circle cx="18" cy="20" r="1" fill="#333" /></svg> <span class="cart-count" id="cartCount">0</span></button>
             </div>
-                        
-            </div>
+        </div>
     </div>
 
     <main class="container">
-        <!-- Home view -->
         <section id="view-home">
+            <div style="margin-top: 20px; border-radius: 16px; overflow: hidden;">
+                <img src="https://i.imgur.com/ebko7BJ.jpeg" style="width:100%; display:block;">
+            </div>
             <div class="hero">
                 <div class="left">
                     <h2>Chào mừng đến Pink Tea</h2>
@@ -348,16 +362,35 @@
             </div>
 
             <h3 style="margin-top:18px">Sản phẩm nổi bật</h3>
-            <div id="featuredGrid" class="grid"></div>
+
+            <div id="featuredGrid" class="grid">
+                @foreach (var item in Model.Take(4)) // Lấy 4 món nổi bật
+                {
+                    <div class="card">
+                        <div class="thumb">
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/150" : item.ImageUrl)" alt="@item.ProductName" />
+                        </div>
+                        <div>
+                            <div style="font-weight:700">@item.ProductName</div>
+                            <div class="muted" style="font-size:13px">
+                                @(item.Category?.CategoryName ?? "Thơm ngon")
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div class="price">@item.BasePrice.ToString("#,##0")₫</div>
+                            <button class="add" data-id="@item.ProductId">Thêm</button>
+                        </div>
+                    </div>
+                }
+            </div>
         </section>
 
-        <!-- Products view -->
         <section id="view-products" style="display:none">
             <h2>Sản phẩm</h2>
-            <div id="productsGrid" class="grid"></div>
+            <div id="productsGrid" class="grid">
+            </div>
         </section>
 
-        <!-- Cart view -->
         <section id="view-cart" style="display:none">
             <h2>Giỏ hàng</h2>
             <div class="cart-page">
@@ -378,30 +411,37 @@
         <div class="container footer-inner">
             <div class="footer-col">
                 <h4>Chính sách</h4>
-                <div class="muted">Hoàn trả 7 ngày • Bảo hành chất lượng • Giao hàng & thanh toán</div>
+                <div class="muted">• Bảo hành chất lượng • Giao hàng tận nơi • thanh toán tiện lợi</div>
             </div>
             <div class="footer-col">
                 <h4>Liên hệ</h4>
-                <div>Địa chỉ: 123 Đường Hồng, Quận Hồng</div>
-                <div>Điện thoại: <strong>+84 912 345 678</strong></div>
+                <div>Địa chỉ: Quốc lộ 13, gần xây xăng Hoàng Trọng, xã Lộc Ninh, tỉnh Đồng Nai</div>
+                <div>Điện thoại: <strong>+84 389 104 781</strong></div>
             </div>
             <div class="footer-col">
                 <h4>Kết nối</h4>
                 <div>Facebook: <a href="#">/PinkTeaOfficial</a></div>
                 <div>Zalo: <a href="#">0901234567</a></div>
             </div>
-            <div class="footer-col muted">© <span id="yr"></span> Pink Tea — Thiết kế & code demo</div>
+            <div class="footer-col muted">©<span id="yr"></span></div>
         </div>
     </footer>
 
     <script>
-        // Sample products
+        // --- QUAN TRỌNG: Tạo danh sách sản phẩm từ SQL để JS dùng (Cho giỏ hàng & Tìm kiếm) ---
         const products = [
-          {id:'p1',name:'Trà sữa trân châu',price:39000,desc:'Hương dâu nhẹ, trân châu dai', img:'https://i.imgur.com/ikCKEyM.jpeg'},
-          {id:'p2',name:'Trà sữa hồng nhài',price:42000,desc:'Hương nhài thanh mát', img:'https://i.imgur.com/C5R2zQK.jpeg'},
-          {id:'p3',name:'Trà sữa hồng sương sáo',price:47000,desc:'Sương sáo mát lạnh', img:'https://i.imgur.com/ikCKEyM.jpeg'},
-          {id:'p4',name:'Trà sữa hồng kem phô mai',price:52000,desc:'Kem phô mai beo béo', img:'https://i.imgur.com/ikCKEyM.jpeg'},
-          {id:'p5',name:'Trà sữa hồng đá xay',price:56000,desc:'Đá xay mát lạnh', img:'https://i.imgur.com/ikCKEyM.jpeg'}
+            @foreach (var item in Model)
+            {
+                    <text>
+                    {
+                        id: '@item.ProductId',
+                        name: '@Html.Raw(item.ProductName)',
+                        price: @item.BasePrice,
+                        desc: '@Html.Raw(item.Category?.CategoryName ?? "Thơm ngon")',
+                        img: '@item.ImageUrl'
+                    },
+                    </text>
+            }
         ];
 
         // Utility: format currency (Vietnamese Dong)
@@ -417,7 +457,7 @@
         function createCard(p){
           const el = document.createElement('div');el.className='card';
           el.innerHTML = `
-            <div class="thumb"><img src="https://i.imgur.com/ikCKEyM.jpeg;utf8,${encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"400\"><rect width=\"100%\" height=\"100%\" fill=\"#ffe6f0\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"#ff5aa3\" font-size=\"36\">'+p.name+'</text></svg>')}" alt="${p.name}"/></div>
+            <div class="thumb"><img src="${p.img}" alt="${p.name}"/></div>
             <div>
               <div style="font-weight:700">${p.name}</div>
               <div class="muted" style="font-size:13px">${p.desc}</div>
@@ -426,7 +466,7 @@
               <div class="price">${fmt(p.price)}</div>
               <button class="add" data-id="${p.id}">Thêm</button>
             </div>
-          `;
+          `
           return el;
         }
 
@@ -435,9 +475,11 @@
           const list = products.filter(p=>p.name.toLowerCase().includes(filter.toLowerCase())||p.desc.toLowerCase().includes(filter.toLowerCase()));
           list.forEach(p=>productsGrid.appendChild(createCard(p)));
         }
+
+        // LƯU Ý: Hàm này mình bỏ trống vì đã render bằng C# ở trên rồi (để tránh bị giật khi load trang)
+        // Nhưng vẫn giữ hàm để không lỗi code cũ
         function renderFeatured(){
-          featuredGrid.innerHTML='';
-          products.slice(0,4).forEach(p=>featuredGrid.appendChild(createCard(p)));
+             // Không làm gì cả vì HTML đã có sẵn từ Server
         }
 
         // Cart (localStorage)
@@ -455,12 +497,16 @@
           let total=0;
           if(totalItems===0){cartListEl.innerHTML='<div class="muted">Giỏ hàng trống.</div>'}
           for(const id in cart){
-            const p = products.find(x=>x.id===id);
+            // Tìm sản phẩm theo ID (Lưu ý: so sánh chuỗi vs số cần cẩn thận)
+            const p = products.find(x=>x.id == id);
             if(!p) continue;
+
             const qty = cart[id];
             const item = document.createElement('div');item.className='cart-item';
             item.innerHTML = `
-              <div style="flex:0 0 64px;background:linear-gradient(180deg,#fff0f5,#ffe6f0);border-radius:8px;padding:8px;text-align:center">${p.name.split(' ')[0]}</div>
+              <div style="flex:0 0 64px;background:linear-gradient(180deg,#fff0f5,#ffe6f0);border-radius:8px;padding:8px;text-align:center">
+                <img src="${p.img}" style="width:100%;height:100%;object-fit:contain">
+              </div>
               <div style="flex:1">
                 <div style="font-weight:700">${p.name}</div>
                 <div class="muted">${fmt(p.price)} x ${qty} = <strong>${fmt(p.price*qty)}</strong></div>
@@ -511,8 +557,8 @@
         document.getElementById('searchInput').addEventListener('input',e=>{
           const q = e.target.value;
           renderProducts(q);
-          renderFeatured();
-          // if user is in products view, keep it
+          // renderFeatured(); // Tắt dòng này để không bị mất grid server
+
           const prodView = document.getElementById('view-products');
           if(prodView.style.display==='none'){
             // nothing
@@ -527,17 +573,19 @@
           // set nav active
           document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active', a.dataset.view===name));
           if(name==='products') renderProducts(document.getElementById('searchInput').value||'');
-          if(name==='home') renderFeatured();
+          // if(name==='home') renderFeatured(); // Tắt dòng này luôn
           if(name==='cart') updateCartUI();
         }
 
         // Init
         document.getElementById('yr').textContent = new Date().getFullYear();
-        renderFeatured(); renderProducts(); updateCartUI();
+        renderProducts();
+        updateCartUI();
 
         // Attach add-to-cart for programmatically created cards
-        productsGrid.addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
-        featuredGrid.addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
+        // Dòng này xử lý cho cả grid tĩnh (C#) và grid động (JS)
+        document.querySelector('main').addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
+
     </script>
 </body>
 </html>

@@ -1,7 +1,19 @@
+﻿using Microsoft.EntityFrameworkCore; // 1. Thư viện để kết nối SQL
+using MILKTEASHOP.Models;        // 2. Namespace chứa TraSuaDbContext của bạn
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// ==================================================================
+// BẮT ĐẦU: Cấu hình kết nối Database (Thêm đoạn này)
+// ==================================================================
+builder.Services.AddDbContext<TraSuaDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TraSuaContext")));
+// ==================================================================
+// KẾT THÚC
+// ==================================================================
 
 var app = builder.Build();
 
