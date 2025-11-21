@@ -1,13 +1,181 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+}
 
-<html>
+<!doctype html>
+<html lang="vi">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewBag.Title - Pink Tea</title>
+
+    <!-- ================= CSS GOM HẾT VÀO ĐÂY =================== -->
+    <style>
+        :root {
+            --pink-50: #fff5f8;
+            --pink-100: #ffe9f0;
+            --pink-200: #ffd0e3;
+            --pink-400: #ff97c1;
+            --pink-600: #ff5aa3;
+            --text: #333;
+            --muted: #7a7a7a;
+            --card-shadow: 0 8px 24px rgba(255,130,170,0.12);
+            font-family: 'Inter', system-ui, -apple-system;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg,var(--pink-50),#fff);
+            color: var(--text);
+            background-image: url(https://i.imgur.com/QJkAj1w.png);
+            background-size: contain;
+        }
+
+        /* Header */
+        .topbar {
+            background: linear-gradient(90deg,var(--pink-200),var(--pink-50));
+            border-bottom: 1px solid rgba(255,90,163,0.08);
+            backdrop-filter: blur(4px);
+        }
+
+        .container { max-width: 1100px; margin: auto; padding: 16px; }
+
+        .header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+
+        .brand { display:flex; gap:12px; align-items:center }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,var(--pink-400),var(--pink-600));
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-weight:700;
+            box-shadow: var(--card-shadow);
+        }
+
+        nav { display:flex; gap:10px; }
+        nav a {
+            padding:5px;
+            text-decoration:none;
+            color:var(--text);
+            font-weight:600;
+            border-radius:10px;
+        }
+        nav a.active { background:rgba(255,90,163,0.15); color:var(--pink-600); }
+
+        .tools { display:flex; gap:10px; align-items:center; }
+
+        .search {
+            display:flex;
+            align-items:center;
+            background:white;
+            padding:6px 12px;
+            border-radius:999px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+        }
+        .search input {
+            border:0; outline:0; background:transparent;
+        }
+
+        .cart-btn { border:0; background:transparent; cursor:pointer; position:relative; }
+        .cart-count {
+            background:var(--pink-600);
+            color:white;
+            padding:4px 8px;
+            border-radius:999px;
+            font-weight:700;
+        }
+
+        /* Footer */
+        footer { margin-top:40px; padding:20px 0; }
+        .footer-inner { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+        .footer-col { min-width:200px; }
+        .muted { color:var(--muted); }
+    </style>
+    <!-- ================= END CSS =================== -->
 </head>
+
 <body>
-    <div>
-        @RenderBody()
+
+    <!-- ================= HEADER =================== -->
+    <div class="topbar">
+        <div class="container header">
+
+            <div class="brand">
+                <img src="https://i.imgur.com/cyS0xaX.jpeg" class="logo" alt="Logo">
+                <div>
+                    <h1>Pink Tea — Trà sữa nhà Hồng</h1>
+                    <div class="muted">Ngọt dịu</div>
+                </div>
+            </div>
+
+            <nav id="nav">
+                <a href="/Home/Index">Trang chủ</a>
+                <a href="/Product/List">Sản phẩm</a>
+                <a href="/Cart/Index">Giỏ hàng</a>
+            </nav>
+
+            <div class="tools">
+                <div class="search">
+                    <input id="searchInput" placeholder="Tìm sản phẩm..." />
+                </div>
+
+                <button id="cartBtn" class="cart-btn">
+                    <span id="cartCount" class="cart-count">0</span>
+                </button>
+            </div>
+
+        </div>
     </div>
+    <!-- ================= END HEADER =================== -->
+
+
+    <!-- ================= BODY =================== -->
+    <main class="container">
+        @RenderBody()
+    </main>
+    <!-- ================= END BODY =================== -->
+
+
+    <!-- ================= FOOTER =================== -->
+    <footer>
+        <div class="container footer-inner">
+
+            <div class="footer-col">
+                <h4>Chính sách</h4>
+                <div class="muted">• Bảo hành • Giao hàng nhanh • Thanh toán tiện lợi</div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Liên hệ</h4>
+                <div>Quốc lộ 13, Lộc Ninh — Đồng Nai</div>
+                <div><strong>0389 104 781</strong></div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Kết nối</h4>
+                <div>Facebook: /PinkTeaOfficial</div>
+                <div>Zalo: 0901234567</div>
+            </div>
+
+            <div class="footer-col muted">
+                © <span id="yr"></span> Pink Tea
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("yr").textContent = new Date().getFullYear();
+    </script>
+
+    <!-- ================= END FOOTER =================== -->
+
 </body>
 </html>
