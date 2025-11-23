@@ -329,7 +329,7 @@
             </div>
             <nav id="nav">
                 <a href="#" data-view="home" class="active">Trang chủ</a>
-                <a href="#" data-view="products">Sản phẩm</a>
+                <a href="/Product/List" data-view="products">Sản phẩm</a>
                 <a href="#" data-view="cart">Giỏ hàng</a>
             </nav>
             <div class="tools">
@@ -364,11 +364,16 @@
             <h3 style="margin-top:18px">Sản phẩm nổi bật</h3>
 
             <div id="featuredGrid" class="grid">
-                @foreach (var item in Model.Take(4)) // Lấy 4 món nổi bật
+
+                @foreach (var item in Model.Take(8))
                 {
                     <div class="card">
                         <div class="thumb">
-                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/150" : item.ImageUrl)" alt="@item.ProductName" />
+                            <a href="/Product/Detail/@item.ProductId" style="display:block; width:100%; height:100%;">
+                                <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/150" : item.ImageUrl)"
+                                     alt="@item.ProductName"
+                                     style="width:100%; height:100%; object-fit:contain;" />
+                            </a>
                         </div>
                         <div>
                             <div style="font-weight:700">@item.ProductName</div>
@@ -382,6 +387,7 @@
                         </div>
                     </div>
                 }
+
             </div>
         </section>
 
