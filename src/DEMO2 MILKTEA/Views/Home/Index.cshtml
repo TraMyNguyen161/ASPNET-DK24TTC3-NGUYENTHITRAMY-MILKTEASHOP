@@ -330,14 +330,14 @@
             <nav id="nav">
                 <a href="#" data-view="home" class="active">Trang chủ</a>
                 <a href="/Product/List" data-view="products">Sản phẩm</a>
-                <a href="#" data-view="cart">Giỏ hàng</a>
+                <a asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
             </nav>
             <div class="tools">
                 <div class="search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="11" cy="11" r="6" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
                     <input id="searchInput" placeholder="Tìm sản phẩm, ví dụ: Trà sữa trân châu" />
                 </div>
-                <button class="cart-btn" id="cartBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="10" cy="20" r="1" fill="#333" /><circle cx="18" cy="20" r="1" fill="#333" /></svg> <span class="cart-count" id="cartCount">0</span></button>
+                
             </div>
         </div>
     </div>
@@ -383,7 +383,25 @@
                         </div>
                         <div class="meta">
                             <div class="price">@item.BasePrice.ToString("#,##0")₫</div>
-                            <button class="add" data-id="@item.ProductId">Thêm</button>
+                            <a asp-controller="Cart"
+                               asp-action="Add"
+                               asp-route-id="@item.ProductId"
+                               class="add"
+                               style="
+                                padding:6px 10px;
+                                background:linear-gradient(90deg,#ff97c1,#ff5aa3);
+                                border:none;
+                                border-radius:12px;
+                                color:white;
+                                font-size:16px;
+                                font-weight:700;
+                                display:inline-block;
+                                cursor:pointer;
+                                text-decoration:none;
+       ">
+                                Thêm
+                            </a>
+
                         </div>
                     </div>
                 }
@@ -560,9 +578,10 @@
         });
 
         // Search
-        document.getElementById('searchInput').addEventListener('input',e=>{
-          const q = e.target.value;
-          renderProducts(q);
+               document.getElementById('searchInput').addEventListener('input', e => {
+            renderProducts(e.target.value);
+        });
+
           // renderFeatured(); // Tắt dòng này để không bị mất grid server
 
           const prodView = document.getElementById('view-products');
@@ -585,7 +604,30 @@
 
         // Init
         document.getElementById('yr').textContent = new Date().getFullYear();
-        renderProducts();
+                function renderProducts(filter = '') {
+            productsGrid.innerHTML = '';
+
+            const keyword = filter.toLowerCase().trim();
+
+            const list = products.filter(p =>
+                p.name.toLowerCase().includes(keyword) ||
+                p.desc.toLowerCase().includes(keyword)
+            );
+
+            if (list.length === 0) {
+                productsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding:20px" class="muted">
+                        Không tìm thấy sản phẩm nào liên quan đến "<strong>${filter}</strong>"
+                    </div>`;
+                return;
+            }
+
+            list.forEach(p => productsGrid.appendChild(createCard(p)));
+
+            // Tự động chuyển sang trang danh sách sản phẩm khi đang tìm kiếm
+            showView('products');
+        }
+
         updateCartUI();
 
         // Attach add-to-cart for programmatically created cards

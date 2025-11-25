@@ -100,6 +100,7 @@
 </style>
 <h2></h2>
 
+
 <div class="product-layout">
 
     <!-- ==== SIDEBAR ==== -->
@@ -146,3 +147,25 @@
     </div>
 
 </div>
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const allCards = document.querySelectorAll(".card");
+
+    searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+
+        allCards.forEach(card => {
+            const name = card.querySelector("div[style*='font-weight']").innerText.toLowerCase();
+            const category = card.querySelector(".muted").innerText.toLowerCase();
+            const desc = card.querySelector("div.muted:nth-of-type(2)")?.innerText.toLowerCase() || "";
+
+            // Nếu tên hoặc mô tả chứa keyword → show
+            if (name.includes(keyword) || category.includes(keyword) || desc.includes(keyword)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+</script>
+
