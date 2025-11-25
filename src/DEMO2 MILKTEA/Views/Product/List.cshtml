@@ -137,7 +137,9 @@
                 </div>
                 <div class="meta">
                     <div class="price">@item.BasePrice.ToString("#,##0")₫</div>
-                    <button class="add" data-id="@item.ProductId">Thêm</button>
+                    <a href="/Cart/Add/@item.ProductId" class="add" style="display:inline-block; text-decoration:none;">
+    Thêm
+</a>
                 </div>
             </div>
         }
