@@ -13,8 +13,7 @@ namespace MILKTEASHOP.Controllers
         {
             _context = context;
         }
-        // === Hiển thị danh sách sản phẩm và tìm kiếm ===
-        // Danh sách sản phẩm
+        
         public IActionResult List(string search = "")
         {
             ViewBag.Categories = _context.Categories.ToList();
