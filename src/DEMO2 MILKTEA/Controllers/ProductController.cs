@@ -75,6 +75,21 @@ namespace MILKTEASHOP.Controllers
             ViewBag.Categories = _context.Categories.ToList();
             return View(product);
         }
+        // LỌC SẢN PHẨM THEO DANH MỤC
+        public IActionResult Category(int id)
+        {
+            // Lấy danh sách danh mục cho sidebar
+            ViewBag.Categories = _context.Categories.ToList();
+
+            // Lấy sản phẩm theo category
+            var products = _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == id)
+                .ToList();
+
+            return View("List", products); // dùng lại view List.cshtml
+        }
+
 
     }
 }
