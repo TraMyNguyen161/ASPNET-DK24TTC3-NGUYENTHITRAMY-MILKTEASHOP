@@ -42,9 +42,6 @@ namespace MILKTEASHOP.Controllers
 
             return RedirectToAction("Index");
         }
-                // ============================
-        // Lấy giỏ hàng từ session
-        // ============================
         private List<CartItem> GetCart()
         {
             var data = HttpContext.Session.GetString("CART");
@@ -59,19 +56,17 @@ namespace MILKTEASHOP.Controllers
             HttpContext.Session.SetString("CART", JsonConvert.SerializeObject(cart));
         }
 
-        // ============================
-        // Hiển thị giỏ hàng
-        // ============================
+        
         public IActionResult Index()
         {
             var cart = GetCart();
+            ViewBag.Toppings = _context.Toppings.ToList(); 
             return View(cart);
         }
 
-                    
-        // ============================
-        // XÓA 1 SẢN PHẨM KHỎI GIỎ
-        // ============================
+
+
+        
         public IActionResult Remove(int id)
         {
             var cart = GetCart();
@@ -85,5 +80,23 @@ namespace MILKTEASHOP.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult UpdateToppings(List<CartItem> CartItems)
+        {
+            var cart = GetCart();
+
+            foreach (var ci in CartItems)
+            {
+                var existing = cart.FirstOrDefault(x => x.ProductId == ci.ProductId);
+                if (existing != null)
+                {
+                    existing.SelectedToppingIds = ci.SelectedToppingIds ?? new List<int>();
+                }
+            }
+
+            SaveCart(cart);
+            return RedirectToAction("Index");
+        }
+
     }
 }

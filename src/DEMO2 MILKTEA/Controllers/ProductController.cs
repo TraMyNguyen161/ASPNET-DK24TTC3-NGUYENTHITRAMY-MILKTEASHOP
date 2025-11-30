@@ -27,7 +27,7 @@ namespace MILKTEASHOP.Controllers
             return View(products.ToList());
         }
 
-        // Chi tiết sản phẩm
+        
         public IActionResult Detail(int id)
         {
             var product = _context.Products
@@ -51,7 +51,7 @@ namespace MILKTEASHOP.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Lưu ảnh
+               
                 if (imageFile != null && imageFile.Length > 0)
                 {
                     string fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
@@ -74,19 +74,19 @@ namespace MILKTEASHOP.Controllers
             ViewBag.Categories = _context.Categories.ToList();
             return View(product);
         }
-        // LỌC SẢN PHẨM THEO DANH MỤC
+        
         public IActionResult Category(int id)
         {
-            // Lấy danh sách danh mục cho sidebar
+            
             ViewBag.Categories = _context.Categories.ToList();
 
-            // Lấy sản phẩm theo category
+           
             var products = _context.Products
                 .Include(p => p.Category)
                 .Where(p => p.CategoryId == id)
                 .ToList();
 
-            return View("List", products); // dùng lại view List.cshtml
+            return View("List", products); 
         }
 
 

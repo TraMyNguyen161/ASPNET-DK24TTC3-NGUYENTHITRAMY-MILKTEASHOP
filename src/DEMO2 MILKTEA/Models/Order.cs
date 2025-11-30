@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;       // Cần cái này để dùng [Key]
+using System.ComponentModel.DataAnnotations;       
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MILKTEASHOP.Models // <--- Nhớ kiểm tra Namespace phải trùng với mấy file kia
+namespace MILKTEASHOP.Models 
 {
     [Table("Orders")]
     public partial class Order
@@ -13,7 +13,7 @@ namespace MILKTEASHOP.Models // <--- Nhớ kiểm tra Namespace phải trùng v�
             OrderDetails = new HashSet<OrderDetail>();
         }
 
-        [Key] // <--- QUAN TRỌNG: Đây là dòng xác định khóa chính
+        [Key] 
         public int OrderId { get; set; }
 
         [StringLength(100)]

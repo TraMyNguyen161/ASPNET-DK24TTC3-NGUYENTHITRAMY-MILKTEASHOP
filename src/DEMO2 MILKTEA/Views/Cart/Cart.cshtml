@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MILKTEASHOP.Models.CartItem>
-
+﻿@model List<MILKTEASHOP.Models.CartItem>
 @{
     ViewData["Title"] = "Giỏ hàng";
+    var allToppings = ViewBag.Toppings as List<MILKTEASHOP.Models.Topping>;
 }
 
 <style>
@@ -94,6 +94,20 @@
         .checkout-btn:hover {
             background: #ff4d94;
         }
+
+    .topping-box {
+        background: #fff7fb;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #ffc0dc;
+        margin-top: 8px;
+    }
+
+        .topping-box label {
+            display: block;
+            font-size: 14px;
+            color: #b31266;
+        }
 </style>
 
 <div class="cart-wrapper">
@@ -105,31 +119,43 @@
     }
     else
     {
-        <table>
+        <table id="cartTable">
             <thead>
                 <tr>
                     <th>Sản phẩm</th>
                     <th>Giá</th>
                     <th>SL</th>
                     <th>Tạm tính</th>
+                    <th>Topping</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @for (int i = 0; i < Model.Count; i++)
                 {
-                    <tr>
+                    var item = Model[i];
+                    <tr data-index="@i" data-price="@item.Price">
                         <td>@item.ProductName</td>
                         <td>@item.Price.ToString("C")</td>
                         <td>@item.Quantity</td>
-                        <td>@(item.Price* item.Quantity)</td>
+                        <td class="subtotal"></td>
                         <td>
-                            <a class="remove-btn"
-                               asp-controller="Cart"
-                               asp-action="Remove"
-                               asp-route-id="@item.ProductId">
-                                Xóa
-                            </a>
+                            <div class="topping-box">
+                                @foreach (var t in allToppings)
+                                {
+                                    var isChecked = item.SelectedToppingIds != null && item.SelectedToppingIds.Contains(t.ToppingId);
+                                    <label>
+                                        <input type="checkbox" class="topping-checkbox"
+                                               data-topping-price="@t.Price"
+                                               data-item-index="@i"
+                                               value="@t.ToppingId" @(isChecked ? "checked" : "") />
+                                        @t.ToppingName (@t.Price.ToString("C"))
+                                    </label>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <a class="remove-btn" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId">Xóa</a>
                         </td>
                     </tr>
                 }
@@ -137,12 +163,36 @@
         </table>
 
         <div class="total-box">
-            <strong>Tổng tiền: </strong>
-            @Model.Sum(x => x.Price * x.Quantity).ToString("C")
+            <strong>Tổng tiền: </strong><span id="cartTotal"></span>
         </div>
 
-        <a class="checkout-btn" href="#">
-            Thanh toán
-        </a>
+        <a class="checkout-btn" href="@Url.Action("Create", "Order")">Thanh toán</a>
     }
 </div>
+
+<script>
+    function updateCartTotals() {
+        let total = 0;
+        document.querySelectorAll('#cartTable tbody tr').forEach(tr => {
+            const price = parseFloat(tr.dataset.price);
+            const qty = parseInt(tr.children[2].innerText);
+            let toppingTotal = 0;
+
+            tr.querySelectorAll('.topping-checkbox').forEach(cb => {
+                if(cb.checked) toppingTotal += parseFloat(cb.dataset.toppingPrice);
+            });
+
+            const subtotal = (price * qty) + toppingTotal;
+            tr.querySelector('.subtotal').innerText = subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            total += subtotal;
+        });
+
+        document.getElementById('cartTotal').innerText = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+    document.querySelectorAll('.topping-checkbox').forEach(cb => {
+        cb.addEventListener('change', updateCartTotals);
+    });
+
+    updateCartTotals();
+</script>

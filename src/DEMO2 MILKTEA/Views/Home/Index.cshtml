@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<MILKTEASHOP.Models.Product>
-
 @{
-    Layout = null; /* Tắt layout mặc định để dùng full code của bạn */
+    Layout = null; 
 }
 
 <!doctype html>
@@ -11,7 +10,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pink Milk Tea — Cửa hàng trà sữa</title>
     <style>
-        /* --- GIỮ NGUYÊN CSS CỦA BẠN 100% --- */
+        
         :root {
             --pink-50: #fff5f8;
             --pink-100: #ffe9f0;
@@ -36,7 +35,7 @@
             background-size: contain;
         }
 
-        /* Header */
+       
         .topbar {
             background: linear-gradient(90deg,var(--pink-200),var(--pink-50));
             border-bottom: 1px solid rgba(255,90,163,0.08);
@@ -99,7 +98,7 @@
                     color: var(--pink-600)
                 }
 
-        /* Search & cart */
+        
         .tools {
             display: flex;
             gap: 8px;
@@ -141,7 +140,7 @@
             font-weight: 700
         }
 
-        /* Main */
+        
         main {
             padding: 28px 0
         }
@@ -181,7 +180,7 @@
                 font-weight: 700
             }
 
-        /* Products grid */
+        
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
@@ -206,7 +205,7 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(180deg,var(--pink-100),var(--pink-200));
-            overflow: hidden; /* Thêm overflow hidden để ảnh không tràn */
+            overflow: hidden;
         }
 
             .thumb img {
@@ -214,7 +213,7 @@
                 max-width: 100%;
                 object-fit: contain;
             }
-        /* Chỉnh lại ảnh cho gọn */
+        
 
         .meta {
             display: flex;
@@ -237,7 +236,7 @@
             font-weight: 700
         }
 
-        /* Cart page */
+        
         .cart-page {
             background: white;
             padding: 16px;
@@ -270,7 +269,7 @@
                 cursor: pointer
             }
 
-        /* Footer */
+       
         footer {
             margin-top: 28px;
             padding: 20px 0;
@@ -293,7 +292,7 @@
             color: var(--muted)
         }
 
-        /* Responsive */
+        
         @@media (max-width: 768px) {
             .header
 
@@ -438,7 +437,7 @@
         <div class="container footer-inner">
             <div class="footer-col">
                 <h4>Chính sách</h4>
-                <div class="muted">• Bảo hành chất lượng • Giao hàng tận nơi • thanh toán tiện lợi</div>
+                <div class="muted">• Đảm bảo chất lượng • Giao hàng tận nơi • thanh toán tiện lợi</div>
             </div>
             <div class="footer-col">
                 <h4>Liên hệ</h4>
@@ -455,7 +454,7 @@
     </footer>
 
     <script>
-        // --- QUAN TRỌNG: Tạo danh sách sản phẩm từ SQL để JS dùng (Cho giỏ hàng & Tìm kiếm) ---
+        
         const products = [
             @foreach (var item in Model)
             {
@@ -471,10 +470,10 @@
             }
         ];
 
-        // Utility: format currency (Vietnamese Dong)
+        
         function fmt(v){return v.toLocaleString('vi-VN') + '₫'}
 
-        // Render helpers
+        
         const productsGrid = document.getElementById('productsGrid');
         const featuredGrid = document.getElementById('featuredGrid');
         const cartCountEl = document.getElementById('cartCount');
@@ -503,13 +502,11 @@
           list.forEach(p=>productsGrid.appendChild(createCard(p)));
         }
 
-        // LƯU Ý: Hàm này mình bỏ trống vì đã render bằng C# ở trên rồi (để tránh bị giật khi load trang)
-        // Nhưng vẫn giữ hàm để không lỗi code cũ
+        
         function renderFeatured(){
-             // Không làm gì cả vì HTML đã có sẵn từ Server
+         
         }
 
-        // Cart (localStorage)
         let cart = JSON.parse(localStorage.getItem('pinkCart')||'{}');
         function saveCart(){localStorage.setItem('pinkCart',JSON.stringify(cart));updateCartUI();}
         function addToCart(id){cart[id] = (cart[id]||0)+1;saveCart();}
@@ -519,12 +516,12 @@
         function updateCartUI(){
           const totalItems = Object.values(cart).reduce((a,b)=>a+b,0);
           cartCountEl.textContent = totalItems;
-          // render cart list
+          
           cartListEl.innerHTML='';
           let total=0;
           if(totalItems===0){cartListEl.innerHTML='<div class="muted">Giỏ hàng trống.</div>'}
           for(const id in cart){
-            // Tìm sản phẩm theo ID (Lưu ý: so sánh chuỗi vs số cần cẩn thận)
+            
             const p = products.find(x=>x.id == id);
             if(!p) continue;
 
@@ -549,7 +546,7 @@
           cartTotalEl.textContent = fmt(total);
         }
 
-        // Event delegation for add buttons
+        
         document.addEventListener('click',e=>{
           if(e.target.matches('.add')){
             const id = e.target.dataset.id;
@@ -559,7 +556,7 @@
             e.preventDefault();
             const v = e.target.dataset.view;
             if(v) showView(v);
-            // set active
+            
             document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));
             e.target.classList.add('active');
           }
@@ -580,32 +577,33 @@
           }
         });
 
-        // Search
+       
                document.getElementById('searchInput').addEventListener('input', e => {
             renderProducts(e.target.value);
         });
 
-          // renderFeatured(); // Tắt dòng này để không bị mất grid server
+          
 
           const prodView = document.getElementById('view-products');
           if(prodView.style.display==='none'){
-            // nothing
+           
           } else {
-            // show filtered products
+            
           }
-        });
+        }
+        );
 
-        // Views
+       
         function showView(name){
           ['home','products','cart'].forEach(v=>document.getElementById('view-'+v).style.display = (v===name)?'block':'none');
-          // set nav active
+          
           document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active', a.dataset.view===name));
           if(name==='products') renderProducts(document.getElementById('searchInput').value||'');
-          // if(name==='home') renderFeatured(); // Tắt dòng này luôn
+          
           if(name==='cart') updateCartUI();
         }
 
-        // Init
+        
         document.getElementById('yr').textContent = new Date().getFullYear();
                 function renderProducts(filter = '') {
             productsGrid.innerHTML = '';
@@ -627,14 +625,13 @@
 
             list.forEach(p => productsGrid.appendChild(createCard(p)));
 
-            // Tự động chuyển sang trang danh sách sản phẩm khi đang tìm kiếm
+           
             showView('products');
         }
 
         updateCartUI();
 
-        // Attach add-to-cart for programmatically created cards
-        // Dòng này xử lý cho cả grid tĩnh (C#) và grid động (JS)
+        
         document.querySelector('main').addEventListener('click',e=>{ if(e.target.matches('button[data-id]')){ addToCart(e.target.dataset.id); } });
 
     </script>

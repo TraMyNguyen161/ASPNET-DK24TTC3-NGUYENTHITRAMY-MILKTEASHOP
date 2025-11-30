@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Đặt hàng thành công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="
+    text-align:center;
+    padding:60px 20px;
+    max-width:600px;
+    margin:40px auto;
+    background:#fff7fa;
+    border-radius:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.1);
+">
+    <h2 style="color:#ff4da6; margin-bottom:20px;">
+        🎉 Đặt hàng thành công!
+    </h2>
+
+    <p style="font-size:18px; margin-bottom:30px; color:#444;">
+        Cảm ơn bạn đã đặt hàng tại <strong>Pink Milk Tea</strong> 💗
+        Chúng tôi sẽ chuẩn bị đơn hàng và giao đến bạn sớm nhất.
+    </p>
+
+    <a asp-controller="Product" asp-action="List"
+       style="padding:12px 28px; background:#ff4da6; color:white; font-weight:600; border-radius:8px; text-decoration:none;">
+        Tiếp tục mua hàng
+    </a>
+</div>

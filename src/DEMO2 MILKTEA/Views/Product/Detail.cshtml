@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Ảnh & thông tin SP -->
+
 <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin-top:20px">
 
-    <!-- Ảnh sản phẩm -->
+    
     <div style="flex:1;min-width:300px;">
         <div style="
             width:100%;
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <!-- Thông tin -->
+    
     <div style="flex:1;min-width:300px;">
         <h2 style="margin:0 0 8px 0;font-size:32px;font-weight:700;">
             @Model.ProductName
@@ -36,7 +36,7 @@
             @Model.BasePrice.ToString("#,##0")₫
         </div>
 
-        <!-- Chọn số lượng -->
+        
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
             <button onclick="changeQty(-1)"
                     style="padding:8px 12px;border-radius:10px;border:none;background:#ffd0e3;cursor:pointer">
@@ -73,7 +73,7 @@
             Thêm vào giỏ hàng
         </a>
 
-        <!-- Mô tả -->
+        
         @if (!string.IsNullOrEmpty(Model.Description))
         {
 
@@ -89,7 +89,7 @@
 
 
 
-<!-- Sản phẩm liên quan -->
+
 @if (ViewBag.Related != null)
 {
     <h3 style="margin-top:40px">Sản phẩm liên quan</h3>
@@ -188,7 +188,6 @@
     }
 
     function addDetailToCart(id){
-        // cart từ localStorage trong layout
         let cart = JSON.parse(localStorage.getItem("pinkCart") || "{}");
         cart[id] = (cart[id] || 0) + qty;
         localStorage.setItem("pinkCart", JSON.stringify(cart));

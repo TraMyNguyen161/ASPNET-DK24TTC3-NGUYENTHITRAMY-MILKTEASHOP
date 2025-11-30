@@ -22,7 +22,7 @@ namespace MILKTEASHOP.Models
         [StringLength(200)]
         public string ProductName { get; set; } = null!;
 
-        // ===== THÊM DESCRIPTION =====
+        
         [StringLength(2000)]
         public string? Description { get; set; }
 
@@ -35,7 +35,7 @@ namespace MILKTEASHOP.Models
 
         public bool? IsActive { get; set; }
 
-        // QUAN HỆ
+        
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 
