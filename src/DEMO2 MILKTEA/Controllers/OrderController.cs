@@ -28,7 +28,7 @@ namespace MILKTEASHOP.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Order order)
@@ -45,12 +45,32 @@ namespace MILKTEASHOP.Controllers
                 return View(order);
             }
 
-            
-            order.OrderDate = DateTime.Now;
-            _context.Orders.Add(order);
-            _context.SaveChanges();     
+            // 🟩 1. TÍNH TỔNG TIỀN
+            decimal total = 0;
 
-           
+            foreach (var ci in cartItems)
+            {
+                decimal toppingTotal = 0;
+
+                if (ci.SelectedToppingIds != null && ci.SelectedToppingIds.Any())
+                {
+                    toppingTotal = _context.Toppings
+                                           .Where(t => ci.SelectedToppingIds.Contains(t.ToppingId))
+                                           .Sum(t => t.Price);
+                }
+
+                total += (ci.Price + toppingTotal) * ci.Quantity;
+            }
+
+            // Gán tổng tiền vào Order
+            order.TotalAmount = total;
+            order.OrderDate = DateTime.Now;
+
+            // 🟩 2. Lưu đơn trước để có OrderId
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            // 🟩 3. Lưu OrderDetails
             foreach (var ci in cartItems)
             {
                 var detail = new OrderDetail
@@ -65,9 +85,8 @@ namespace MILKTEASHOP.Controllers
                 };
 
                 _context.OrderDetails.Add(detail);
-                _context.SaveChanges(); 
+                _context.SaveChanges();
 
-                
                 if (ci.SelectedToppingIds != null && ci.SelectedToppingIds.Any())
                 {
                     var toppingList = _context.Toppings
@@ -86,11 +105,12 @@ namespace MILKTEASHOP.Controllers
                 }
             }
 
-            _context.SaveChanges();      
+            _context.SaveChanges();
             HttpContext.Session.Remove("CART");
 
             return RedirectToAction("Success");
         }
+
 
         public IActionResult Success()
         {

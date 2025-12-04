@@ -1,0 +1,215 @@
+﻿@model MILKTEASHOP.Models.Order
+@{
+    ViewBag.Title = "Chi tiết đơn hàng #" + Model.OrderId;
+
+    string GetStatusName(int? s)
+    {
+        return s switch
+        {
+            0 => "Chờ xử lý",
+            1 => "Đang giao",
+            2 => "Hoàn thành",
+            3 => "Đã hủy",
+            _ => "Không xác định"
+        };
+    }
+
+    string GetStatusClass(int? s)
+    {
+        return s switch
+        {
+            0 => "pending",
+            1 => "shipping",
+            2 => "completed",
+            3 => "canceled",
+            _ => "pending"
+        };
+    }
+}
+
+<div class="order-detail-wrapper">
+
+    <div class="detail-title">✤ Chi tiết đơn hàng #@Model.OrderId ✤</div>
+
+   
+    <div class="info-box">
+        <p><b>Ngày đặt:</b> @Model.OrderDate?.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><b>Khách hàng:</b> @Model.CustomerName</p>
+        <p><b>Số điện thoại:</b> @Model.PhoneNumber</p>
+        <p><b>Địa chỉ:</b> @Model.ShippingAddress</p>
+        <p>
+            <b>Trạng thái:</b>
+            <span class="status-tag @GetStatusClass(Model.Status)">
+                @GetStatusName(Model.Status)
+            </span>
+        </p>
+    </div>
+
+   
+    <table class="pink-table">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Size</th>
+                <th>SL</th>
+                <th>Giá</th>
+                <th>Topping</th>
+                <th>Tổng</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var d in Model.OrderDetails)
+            {
+                var toppingPrice = d.OrderDetailToppings.Sum(t => t.PriceAtOrder);
+                var totalItem = (d.PriceAtOrder ?? 0 + toppingPrice) * d.Quantity;
+
+                <tr>
+                    <td>@d.Product?.ProductName</td>
+                    <td>@d.Size</td>
+                    <td>@d.Quantity</td>
+
+                    <td>@((d.PriceAtOrder ?? 0).ToString("N0")) đ</td>
+
+                    <td>
+                        @if (d.OrderDetailToppings.Any())
+                        {
+                            foreach (var t in d.OrderDetailToppings)
+                            {
+                                <div>
+                                    @t.Topping?.ToppingName
+                                    (+@((t.PriceAtOrder ?? 0).ToString("N0")) đ)
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <span>Không</span>
+                        }
+                    </td>
+
+                    <td class="item-total">@String.Format("{0:N0}", totalItem) đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    
+    <div class="order-total-box">
+        <span>Tổng đơn:</span>
+        <strong>@Model.TotalAmount?.ToString("N0") đ</strong>
+    </div>
+
+    <a href="/AdminOrder/index" class="back-btn">← Quay về danh sách</a>
+
+</div>
+
+
+<style>
+    .order-detail-wrapper {
+        max-width: 900px;
+        margin: 30px auto;
+        background: #fff0f6;
+        padding: 30px;
+        border-radius: 14px;
+        font-family: Arial;
+    }
+
+    .detail-title {
+        text-align: center;
+        font-size: 26px;
+        color: #d63384;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .info-box {
+        background: #ffe3ed;
+        padding: 18px;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    
+    .status-tag {
+        padding: 4px 10px;
+        border-radius: 6px;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .pending {
+        background: #ffb347;
+    }
+
+    .shipping {
+        background: #17a2b8;
+    }
+
+    .completed {
+        background: #28a745;
+    }
+
+    .canceled {
+        background: #dc3545;
+    }
+
+    
+    .pink-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+        .pink-table th {
+            background: #ffc2d1;
+            padding: 12px;
+            text-align: center;
+            color: #6f1d3b;
+            font-weight: 700;
+        }
+
+        .pink-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f2c2d4;
+            text-align: center;
+        }
+
+        .pink-table tr:nth-child(even) {
+            background: #fff7fa;
+        }
+
+    .item-total {
+        font-weight: bold;
+        color: #d63384;
+    }
+
+    .order-total-box {
+        text-align: right;
+        font-size: 22px;
+        margin-top: 20px;
+        color: #d63384;
+    }
+
+        .order-total-box strong {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 10px 16px;
+        background: #6f42c1;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+</style>

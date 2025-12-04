@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MILKTEASHOP.Models 
+namespace MILKTEASHOP.Models
 {
     [Table("OrderDetails")]
     public partial class OrderDetail
@@ -13,7 +13,7 @@ namespace MILKTEASHOP.Models
             OrderDetailToppings = new HashSet<OrderDetailTopping>();
         }
 
-        [Key] 
+        [Key]
         public int OrderDetailId { get; set; }
 
         public int? OrderId { get; set; }
@@ -21,8 +21,13 @@ namespace MILKTEASHOP.Models
 
         [StringLength(10)]
         public string Size { get; set; } = string.Empty;
-        public string SugarLevel { get; set; } = string.Empty;
-        public string IceLevel { get; set; } = string.Empty;
+
+    
+        public int? SugarLevel { get; set; }
+
+     
+        public int? IceLevel { get; set; }
+
         public int Quantity { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]

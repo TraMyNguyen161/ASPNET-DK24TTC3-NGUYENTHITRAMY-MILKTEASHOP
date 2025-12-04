@@ -330,13 +330,19 @@
                 <a href="#" data-view="home" class="active">Trang chủ</a>
                 <a href="/Product/List" data-view="products">Sản phẩm</a>
                 <a asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
+                <a href="/AdminOrder/Index" style="
+                padding: 8px 12px;
+                border-radius: 10px;
+                font-weight: 600;
+                color: var(--pink-600);
+                background: rgba(255,90,163,0.12);
+    ">
+                    Quản lý đơn hàng
+                </a>
             </nav>
             <div class="tools">
-                <div class="search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="11" cy="11" r="6" stroke="#ff5aa3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    <input id="searchInput" placeholder="Tìm sản phẩm, ví dụ: Trà sữa trân châu" />
-                </div>
-                
+
+                               
             </div>
         </div>
     </div>

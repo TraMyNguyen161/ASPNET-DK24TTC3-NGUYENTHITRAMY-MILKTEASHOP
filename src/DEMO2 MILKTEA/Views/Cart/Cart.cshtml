@@ -6,14 +6,16 @@
 
 <style>
     .cart-wrapper {
-        max-width: 900px;
+        width: 90%;
+        max-width: 1500px;
         margin: 40px auto;
         background: #fff0f6;
-        padding: 25px 30px;
+        padding: 25px 40px;
         border-radius: 16px;
         box-shadow: 0 4px 10px #ffb6d680;
         border: 2px solid #ff9fcf;
     }
+
 
     .cart-title {
         font-size: 28px;
@@ -127,7 +129,10 @@
                     <th>SL</th>
                     <th>Tạm tính</th>
                     <th>Topping</th>
-                    <th></th>
+                    <th>Size</th>
+                    <th>Đường</th>
+                    <th>Đá</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -138,6 +143,10 @@
                         <td>@item.ProductName</td>
                         <td>@item.Price.ToString("C")</td>
                         <td>@item.Quantity</td>
+                        <td>@item.Size</td>
+                        <td>@item.SugarLevel</td>
+                        <td>@item.IceLevel</td>
+
                         <td class="subtotal"></td>
                         <td>
                             <div class="topping-box">

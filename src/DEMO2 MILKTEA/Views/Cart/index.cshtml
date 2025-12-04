@@ -4,161 +4,217 @@
     var allToppings = ViewBag.Toppings as List<MILKTEASHOP.Models.Topping>;
 }
 
-<div class="cart-wrapper">
-    <h2 class="cart-title">Giỏ hàng của bạn</h2>
-
-    @if (Model == null || !Model.Any())
-    {
-        <p class="empty-cart">Giỏ hàng đang trống. Hãy thêm sản phẩm nhé!</p>
-    }
-    else
-    {
-        <form method="post" action="/Cart/UpdateToppings">
-            <table id="cartTable">
-                <thead>
-                    <tr>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>SL</th>
-                        <th>Tạm tính</th>
-                        <th>Topping</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        var item = Model[i];
-                        <tr data-index="@i" data-price="@item.Price">
-                            <td>
-                                <strong>@item.ProductName</strong>
-                                <input type="hidden" name="CartItems[@i].ProductId" value="@item.ProductId" />
-                            </td>
-                            <td>@item.Price.ToString("N0") đ</td>
-                            <td>@item.Quantity</td>
-                            <td class="subtotal"></td>
-
-                            <td>
-                                <div class="topping-box">
-                                    @foreach (var t in allToppings)
-                                    {
-                                        var isChecked = item.SelectedToppingIds != null && item.SelectedToppingIds.Contains(t.ToppingId);
-                                        <label>
-                                            <input type="checkbox" class="topping-checkbox"
-                                                   name="CartItems[@i].SelectedToppingIds"
-                                                   value="@t.ToppingId" @(isChecked ? "checked" : "")
-                                                   data-topping-price="@t.Price" />
-                                            @t.ToppingName (+@t.Price.ToString("N0") đ)
-                                        </label>
-                                    }
-                                </div>
-                            </td>
-
-                            <td>
-                                <a class="remove-btn" href="/Cart/Remove/@item.ProductId">Xóa</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-            <div class="total-box">
-                <strong>Tổng tiền: </strong><span id="cartTotal"></span>
-            </div>
-
-            <button type="submit" class="update-btn">Cập nhật topping</button>
-        </form>
-
-        <a class="checkout-btn" href="/Order/Create">Thanh toán</a>
-    }
-</div>
-
 <style>
     .cart-wrapper {
-        max-width: 900px;
+        width: 100%;
+        max-width: 1600px;
         margin: 40px auto;
         background: #fff0f6;
-        padding: 25px;
+        padding: 25px 40px;
         border-radius: 16px;
+        box-shadow: 0 4px 10px #ffb6d680;
+        border: 2px solid #ff9fcf;
+        overflow-x: auto;
     }
 
     .cart-title {
-        text-align: center;
         font-size: 28px;
+        font-weight: 700;
         margin-bottom: 20px;
         color: #d63384;
+        text-align: center;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 1000px;
     }
 
-    th {
-        background: #ffd6e9;
-        padding: 10px;
-        color: #b31266;
-        border-bottom: 2px solid #ffa3ce;
-    }
+        table th {
+            background: #ffd6e9;
+            padding: 12px;
+            font-size: 16px;
+            color: #b31266;
+            border-bottom: 2px solid #ffa3ce;
+            text-align: left;
+        }
 
-    td {
-        padding: 12px;
-        border-bottom: 1px dashed #ffb6d6;
-    }
-
-    .topping-box {
-        background: #fff7fb;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #ffc0dc;
-    }
-
-    .topping-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px;
-        background: #fff5f8;
-        border-radius: 10px;
-        border: 1px solid #ffb6c7;
-    }
+        table td {
+            padding: 12px;
+            vertical-align: middle;
+            border-bottom: 1px dashed #ffb6d6;
+            font-size: 15px;
+        }
 
     .remove-btn {
-        background: #ff5c8a;
         color: white;
-        padding: 6px 10px;
-        border-radius: 6px;
+        background: #ff5c8a;
+        padding: 6px 12px;
+        border-radius: 8px;
         text-decoration: none;
+        transition: 0.2s;
+        font-size: 14px;
+    }
+
+        .remove-btn:hover {
+            background: #ec407a;
+        }
+
+    .empty-cart {
+        text-align: center;
+        font-size: 18px;
+        padding: 30px;
+        color: #d63384;
     }
 
     .total-box {
         text-align: right;
         margin-top: 20px;
+        padding: 15px;
         font-size: 20px;
+        background: #ffe3ef;
+        border-radius: 12px;
+        border: 2px solid #ffb6d6;
+        color: #b31266;
     }
 
     .checkout-btn {
         display: block;
+        margin: 20px auto 0;
+        padding: 12px 25px;
+        text-align: center;
         background: #ff66a3;
         color: white;
-        padding: 12px;
+        border-radius: 14px;
+        font-size: 18px;
         width: 200px;
-        margin: 20px auto;
-        text-align: center;
-        border-radius: 10px;
+        text-decoration: none;
+        box-shadow: 0 3px 8px #ff8ec580;
+        transition: 0.2s;
     }
 
-    .update-btn {
-        background: #ff9fcb;
-        padding: 10px 16px;
-        border-radius: 10px;
-        margin-top: 15px;
-        border: none;
+        .checkout-btn:hover {
+            background: #ff4d94;
+        }
+
+    .topping-box {
+        background: #fff7fb;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #ffc0dc;
+        margin-top: 8px;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+        .topping-box label {
+            display: block;
+            font-size: 14px;
+            color: #b31266;
+        }
+
+    select {
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid #ffb6d6;
     }
 </style>
+
+<div class="cart-wrapper">
+    <div class="cart-title">@ViewData["Title"]</div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <p class="empty-cart">Giỏ hàng đang trống. Hãy thêm sản phẩm nhé! 💗</p>
+    }
+    else
+    {
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>SL</th>
+                    <th>Topping</th>
+                    <th>Size</th>
+                    <th>Đường</th>
+                    <th>Đá</th>
+                    <th>Tạm tính</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+                    <tr data-index="@i" data-price="@item.Price">
+                        <td>@item.ProductName</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <div class="topping-box">
+                                @foreach (var t in allToppings)
+                                {
+                                    var isChecked = item.SelectedToppingIds != null && item.SelectedToppingIds.Contains(t.ToppingId);
+                                    <label>
+                                        <input type="checkbox" class="topping-checkbox"
+                                               data-topping-price="@t.Price"
+                                               data-item-index="@i"
+                                               value="@t.ToppingId" @(isChecked ? "checked" : "") />
+                                        @t.ToppingName (@t.Price.ToString("C"))
+                                    </label>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <td>
+    <select class="size-select" data-product-id="@item.ProductId">
+                                <option value="S" selected="@(item.Size == "S")">S</option>
+                                <option value="M" selected="@(item.Size == "M")">M</option>
+                                <option value="L" selected="@(item.Size == "L")">L</option>
+
+    </select>
+</td>
+
+                        </td>
+                        <td>
+                            <select class="sugar-select" data-product-id="@item.ProductId">
+                                <option value="100" selected="@(item.SugarLevel == 100)">100</option>
+                                <option value="70" selected="@(item.SugarLevel == 70)">70</option>
+                                <option value="50" selected="@(item.SugarLevel == 50)">50</option>
+
+</select>
+
+
+                        </td>
+                        <td>
+                            <select class="ice-select" data-product-id="@item.ProductId">
+                                <option value="100" selected="@(item.IceLevel == 100)">100</option>
+                                <option value="50" selected="@(item.IceLevel == 50)">50</option>
+                                <option value="0" selected="@(item.IceLevel == 0)">0</option>
+
+</select>
+
+
+                        </td>
+                        <td class="subtotal"></td>
+                        <td>
+                            <a class="remove-btn" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="total-box">
+            <strong>Tổng tiền: </strong><span id="cartTotal"></span>
+        </div>
+
+        <a class="checkout-btn" href="@Url.Action("Create", "Order")">Thanh toán</a>
+    }
+</div>
 
 <script>
     function updateCartTotals() {
@@ -169,19 +225,59 @@
             let toppingTotal = 0;
 
             tr.querySelectorAll('.topping-checkbox').forEach(cb => {
-                if (cb.checked) toppingTotal += parseFloat(cb.dataset.toppingPrice);
+                if(cb.checked) toppingTotal += parseFloat(cb.dataset.toppingPrice);
             });
 
             const subtotal = (price * qty) + toppingTotal;
-            tr.querySelector('.subtotal').innerText = subtotal.toLocaleString('vi-VN') + ' đ';
+            tr.querySelector('.subtotal').innerText = subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
             total += subtotal;
         });
 
-        document.getElementById('cartTotal').innerText = total.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('cartTotal').innerText = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
 
+    
     document.querySelectorAll('.topping-checkbox').forEach(cb => {
         cb.addEventListener('change', updateCartTotals);
+    });
+
+    
+    document.querySelectorAll('.size-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const productId = this.dataset.productId;
+            const size = this.value;
+            fetch('/Cart/UpdateSize', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ productId, size })
+            }).then(() => updateCartTotals());
+        });
+    });
+
+    
+    document.querySelectorAll('.sugar-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const productId = this.dataset.productId;
+            const sugar = this.value;
+            fetch('/Cart/UpdateSugar', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ productId, sugar })
+            }).then(() => updateCartTotals());
+        });
+    });
+
+   
+    document.querySelectorAll('.ice-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const productId = this.dataset.productId;
+            const ice = this.value;
+            fetch('/Cart/UpdateIce', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ productId, ice })
+            }).then(() => updateCartTotals());
+        });
     });
 
     updateCartTotals();
