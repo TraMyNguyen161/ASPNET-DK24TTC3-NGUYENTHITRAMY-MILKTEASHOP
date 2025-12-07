@@ -1,0 +1,75 @@
+﻿@model List<MILKTEASHOP.Models.Product>
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<div class="wrapper">
+
+    <h2 style="margin-bottom:15px;">✦ Quản lý sản phẩm ✦</h2>
+
+    <form method="get" style="margin-bottom:15px; display:flex; gap:10px;">
+        <input type="text" name="search" value="@ViewBag.Search"
+               placeholder="Tìm theo tên..."
+               style="padding:8px 12px; border-radius:8px; border:1px solid #ccc; width:250px;" />
+        <button class="btn" style="padding:8px 14px; border-radius:8px; background:#ff5aa3; color:white;">
+            Tìm kiếm
+        </button>
+        <a href="/AdminProduct/Create"
+           style="margin-left:auto; padding:8px 14px; background:#ff97c1; color:white; border-radius:8px; text-decoration:none;">
+            + Thêm sản phẩm
+        </a>
+    </form>
+
+    <table style="width:100%; border-collapse:collapse; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+        <thead>
+            <tr style="background:#ffe9f0;">
+                <th>Ảnh</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Danh mục</th>
+                <th>Trạng thái</th>
+                <th style="width:150px">Hành động</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr style="border-bottom:1px solid #f5d1e0;">
+                    <td style="padding:8px; text-align:center;">
+                        <img src="@(string.IsNullOrEmpty(p.ImageUrl) ? "https://via.placeholder.com/80" : p.ImageUrl)"
+                             style="width:60px; height:60px; border-radius:8px; object-fit:cover;" />
+                    </td>
+
+                    <td style="padding:8px;">@p.ProductName</td>
+
+                    <td style="padding:8px; color:#ff5aa3; font-weight:700;">
+                        @p.BasePrice.ToString("#,##0")₫
+                    </td>
+
+                    <td style="padding:8px;">
+                        @(p.Category?.CategoryName ?? "Không có")
+                    </td>
+
+                    <td style="padding:8px;">
+                        @(p.IsActive == true ? "Hiển thị" : "Ẩn")
+                    </td>
+
+                    <td style="padding:8px; text-align:center;">
+                        <a href="/AdminProduct/Edit/@p.ProductId"
+                           style="padding:6px 10px; background:#ffd0e3; border-radius:6px; text-decoration:none;">
+                            Sửa
+                        </a>
+                        <a href="/AdminProduct/Delete/@p.ProductId"
+                           onclick="return confirm('Xóa sản phẩm này?')"
+                           style="padding:6px 10px; background:#ffb3c8; border-radius:6px; text-decoration:none; color:#a00;">
+                            Xóa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

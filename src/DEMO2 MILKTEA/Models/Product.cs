@@ -33,9 +33,8 @@ namespace MILKTEASHOP.Models
         [Column("ImageURL")]
         public string? ImageUrl { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
-        
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 

@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>@ViewBag.Title - Pink Tea</title>
 
-    <!-- LOAD FONT ĐỂ HIỂN THỊ TIẾNG VIỆT ĐÚNG -->
+  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- ================= CSS GOM HẾT VÀO ĐÂY =================== -->
+    
     <style>
         :root {
             --pink-50: #fff5f8;
@@ -95,18 +95,18 @@
             font-weight:700;
         }
 
-        /* Footer */
+        
         footer { margin-top:40px; padding:20px 0; }
         .footer-inner { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; }
         .footer-col { min-width:200px; }
         .muted { color:var(--muted); }
     </style>
-    <!-- ================= END CSS =================== -->
+   
 </head>
 
 <body>
 
-    <!-- ================= HEADER =================== -->
+    
     <div class="topbar">
         <div class="container header">
 
@@ -136,17 +136,17 @@
 
         </div>
     </div>
-    <!-- ================= END HEADER =================== -->
+  
 
 
-    <!-- ================= BODY =================== -->
+ 
     <main class="container">
         @RenderBody()
     </main>
-    <!-- ================= END BODY =================== -->
+   
 
 
-    <!-- ================= FOOTER =================== -->
+ 
     <footer>
         <div class="container footer-inner">
 
@@ -178,7 +178,9 @@
         document.getElementById("yr").textContent = new Date().getFullYear();
     </script>
 
-    <!-- ================= END FOOTER =================== -->
+    @RenderSection("Scripts", required: false)
+
+    
 
 </body>
 </html>
