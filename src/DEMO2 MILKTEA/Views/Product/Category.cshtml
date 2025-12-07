@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MILKTEASHOP.Models.Product>
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .category-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #e91e63;
+        margin: 10px 0 20px;
+        text-align: center;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-bottom: 15px;
+        background: #ffe3ef;
+        color: #d63384;
+        padding: 8px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .back-btn:hover {
+            background: #ffc7df;
+        }
+</style>
+
+<div class="category-title">Danh mục sản phẩm</div>
+
+<a href="/Product/List" class="back-btn">← Quay lại tất cả sản phẩm</a>
+
+<div class="grid">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="thumb">
+                <a href="/Product/Detail/@item.ProductId">
+                    <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/150" : item.ImageUrl)" />
+                </a>
+            </div>
+
+            <div>
+                <div style="font-weight:700">@item.ProductName</div>
+                <div class="muted" style="font-size:13px">@item.Category?.CategoryName</div>
+            </div>
+
+            <div class="muted" style="font-size:12px; max-height:40px; overflow:hidden; text-overflow:ellipsis;">
+                @item.Description
+            </div>
+
+            <div class="meta">
+                <div class="price">@item.BasePrice.ToString("#,##0")₫</div>
+                <a href="/Cart/Add/@item.ProductId" class="add">Thêm</a>
+            </div>
+        </div>
+    }
+</div>

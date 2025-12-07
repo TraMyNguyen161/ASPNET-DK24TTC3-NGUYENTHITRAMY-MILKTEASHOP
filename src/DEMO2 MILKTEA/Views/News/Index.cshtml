@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .news-container {
+        max-width: 900px;
+        margin: 30px auto;
+        background: #fff;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(255, 90, 160, 0.15);
+    }
+
+    .news-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: #ff5aa0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .news-image {
+        width: 100%;
+        border-radius: 16px;
+        margin: 20px 0;
+    }
+
+    .news-content {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #444;
+        text-align: justify;
+    }
+
+    .related-news {
+        margin-top: 40px;
+    }
+
+    .related-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ff5aa0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .news-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .news-item {
+        background: #fff5f9;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease;
+    }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+    .news-item-content {
+        padding: 15px;
+    }
+
+    .news-item-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #ff5aa0;
+        margin-bottom: 8px;
+    }
+
+    .news-item-desc {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+</style>
+
+<div class="news-container">
+    <div class="news-title">Sữa chua dầm hoa quả – Món tráng miệng mát lạnh, tốt cho sức khỏe</div>
+
+    <img src="https://i.imgur.com/6zEXtFZ.jpeg" class="news-image" alt="Sữa chua dầm hoa quả" />
+
+    <div class="news-content">
+        Sữa chua dầm hoa quả là món ăn được rất nhiều bạn trẻ yêu thích nhờ hương vị thanh mát, dễ ăn và giàu dinh dưỡng.
+        Sự kết hợp giữa sữa chua mềm mịn cùng các loại trái cây tươi như dâu tây, kiwi, việt quất và bơ tạo nên một món tráng miệng không chỉ ngon miệng mà còn rất tốt cho sức khỏe.
+
+        <br /><br />
+        Món ăn này giúp hỗ trợ tiêu hóa nhờ lợi khuẩn trong sữa chua, đồng thời bổ sung vitamin và chất xơ từ trái cây tươi.
+        Lớp granola giòn rụm phía trên làm tăng thêm hương vị và tạo cảm giác thú vị khi thưởng thức.
+
+        <br /><br />
+        Không chỉ ngon, sữa chua dầm hoa quả còn là lựa chọn hoàn hảo cho những ai đang theo đuổi lối sống lành mạnh.
+        Đây cũng là một món ăn rất phù hợp để thưởng thức vào những ngày thời tiết nóng bức.
+    </div>
+
+
+    <div class="news-list">
+
+     
+        <a href="/News/TranChauDuongDen" class="news-item">
+            <img src="https://i.imgur.com/zmz45mS.jpeg" />
+            <div class="news-item-content">
+                <div class="news-item-title">Trà sữa trân châu đường đen gây sốt</div>
+                <div class="news-item-desc">
+                    Món trà sữa hot trend với vị ngọt đậm và lớp trân châu dẻo thơm hấp dẫn.
+                </div>
+            </div>
+        </a>
+
+      
+        <a href="/News/TopTopping" class="news-item">
+            <img src="https://i.imgur.com/KEtAftp.jpeg" />
+            <div class="news-item-content">
+                <div class="news-item-title">Top 5 món topping được yêu thích nhất</div>
+                <div class="news-item-desc">
+                    Khám phá những loại topping “quốc dân” không thể thiếu trong ly trà sữa.
+                </div>
+            </div>
+        </a>
+
+      
+        <a href="/News/UongTraSuaKhongTangCan" class="news-item">
+            <img src="https://i.imgur.com/zHhN4cR.jpeg" />
+            <div class="news-item-content">
+                <div class="news-item-title">Uống trà sữa thế nào để không tăng cân?</div>
+                <div class="news-item-desc">
+                    Mẹo hay giúp bạn thưởng thức trà sữa ngon miệng mà vẫn giữ dáng.
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+        </div>
+
+

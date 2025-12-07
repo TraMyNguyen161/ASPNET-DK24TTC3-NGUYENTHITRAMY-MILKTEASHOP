@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Top 5 topping trà sữa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .news-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: linear-gradient(135deg, #fff5f9, #ffffff);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 15px 40px rgba(255, 90, 160, 0.12);
+        font-family: 'Segoe UI', sans-serif;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .news-title {
+        font-size: 34px;
+        font-weight: 800;
+        color: #ff5aa0;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .news-subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .news-image {
+        width: 100%;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin: 20px 0;
+    }
+
+    .news-content {
+        font-size: 18px;
+        line-height: 1.9;
+        color: #444;
+        text-align: justify;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 35px;
+        padding: 12px 28px;
+        background: #ff5aa0;
+        color: white;
+        border-radius: 999px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 10px 20px rgba(255,90,160,0.3);
+        transition: 0.2s ease;
+    }
+
+        .back-btn:hover {
+            background: #ff3f8e;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="news-container">
+    <div class="news-title">Top 5 món topping được yêu thích nhất hiện nay</div>
+    <img src="https://i.imgur.com/KEtAftp.jpeg" class="news-image" />
+
+    <div class="news-content">
+        Topping chính là “linh hồn” của mỗi ly trà sữa. Việc lựa chọn topping phù hợp sẽ làm tăng hương vị và trải nghiệm khi thưởng thức.
+
+        <br /><br />
+        Top 5 topping được yêu thích nhất bao gồm: trân châu đen, trân châu trắng, thạch phô mai, pudding trứng và nha đam.
+        Mỗi loại topping mang lại một cảm giác khác nhau, từ dai giòn cho đến béo mềm hấp dẫn.
+
+        <br /><br />
+        Việc kết hợp nhiều loại topping trong cùng một ly trà sữa đang trở thành xu hướng được rất nhiều bạn trẻ yêu thích.
+    </div>
+</div>
+<div>
+
+    <a href="/News/Index" class="back-btn">← Quay lại Tin tức</a>
+</div>

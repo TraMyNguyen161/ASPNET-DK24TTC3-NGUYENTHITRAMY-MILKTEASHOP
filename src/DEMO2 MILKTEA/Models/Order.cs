@@ -34,5 +34,6 @@ namespace MILKTEASHOP.Models
         public int? Status { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+      
     }
 }

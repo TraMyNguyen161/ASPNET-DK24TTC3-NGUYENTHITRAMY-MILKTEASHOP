@@ -11,22 +11,6 @@
 
     <div class="order-title">✤ Quản lý đơn hàng ✤</div>
 
-    <form method="get">
-        <div class="filter-box">
-            <input type="text" name="search" placeholder="Tìm theo mã đơn..."
-                   value="@currentSearch" />
-
-            <select name="status">
-                <option value="All" selected="@(currentStatus == "All")">Tất cả trạng thái</option>
-                <option value="Pending" selected="@(currentStatus == "Pending")">Chờ xử lý</option>
-                <option value="Shipping" selected="@(currentStatus == "Shipping")">Đang giao</option>
-                <option value="Completed" selected="@(currentStatus == "Completed")">Hoàn thành</option>
-                <option value="Canceled" selected="@(currentStatus == "Canceled")">Đã hủy</option>
-            </select>
-
-            </div>
-    </form>
-
     <table>
         <thead>
             <tr>

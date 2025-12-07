@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Trà sữa trân châu đường đen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .news-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: linear-gradient(135deg, #fff5f9, #ffffff);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 15px 40px rgba(255, 90, 160, 0.12);
+        font-family: 'Segoe UI', sans-serif;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .news-title {
+        font-size: 34px;
+        font-weight: 800;
+        color: #ff5aa0;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .news-subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .news-image {
+        width: 100%;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin: 20px 0;
+    }
+
+    .news-content {
+        font-size: 18px;
+        line-height: 1.9;
+        color: #444;
+        text-align: justify;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 35px;
+        padding: 12px 28px;
+        background: #ff5aa0;
+        color: white;
+        border-radius: 999px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 10px 20px rgba(255,90,160,0.3);
+        transition: 0.2s ease;
+    }
+
+        .back-btn:hover {
+            background: #ff3f8e;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="news-container">
+    <div class="news-title">Trà sữa trân châu đường đen gây sốt giới trẻ</div>
+    <img src="https://i.imgur.com/zmz45mS.jpeg" class="news-image" />
+
+    <div class="news-content">
+        Trà sữa trân châu đường đen là một trong những món đồ uống “làm mưa làm gió” trên thị trường đồ uống hiện nay.
+        Với vị ngọt đậm của đường đen kết hợp cùng sữa béo và trân châu dẻo dai, món uống này đã nhanh chóng chiếm được cảm tình của giới trẻ.
+
+        <br /><br />
+        Điểm đặc biệt của món trà sữa này nằm ở phần trân châu được nấu thủ công trong nhiều giờ, thấm đẫm vị đường nâu đặc trưng.
+        Khi uống, bạn sẽ cảm nhận được vị béo – ngọt – dai hòa quyện đầy hấp dẫn.
+
+        <br /><br />
+        Đây là lựa chọn hoàn hảo cho những ai yêu thích hương vị đậm đà và muốn “đổi gió” khi thưởng thức trà sữa.
+    </div>
+</div>
+<div>
+
+    <a href="/News/Index" class="back-btn">← Quay lại Tin tức</a>
+</div>
