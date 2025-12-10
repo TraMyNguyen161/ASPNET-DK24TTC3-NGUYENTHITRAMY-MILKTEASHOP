@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MILKTEASHOP.Models;
 using Newtonsoft.Json;
 
@@ -12,8 +13,21 @@ namespace MILKTEASHOP.Controllers
         {
             _context = context;
         }
+        public IActionResult Details(int id)
+        {
+            var order = _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.OrderDetailToppings)
+                        .ThenInclude(odt => odt.Topping)
+                .FirstOrDefault(o => o.OrderId == id);
 
-        
+            if (order == null)
+                return NotFound();
+
+            return View(order);
+        }
+
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -45,7 +59,7 @@ namespace MILKTEASHOP.Controllers
                 return View(order);
             }
 
-            // 🟩 1. TÍNH TỔNG TIỀN
+           
             decimal total = 0;
 
             foreach (var ci in cartItems)
@@ -62,15 +76,14 @@ namespace MILKTEASHOP.Controllers
                 total += (ci.Price + toppingTotal) * ci.Quantity;
             }
 
-            // Gán tổng tiền vào Order
             order.TotalAmount = total;
             order.OrderDate = DateTime.Now;
 
-            // 🟩 2. Lưu đơn trước để có OrderId
+            
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            // 🟩 3. Lưu OrderDetails
+         
             foreach (var ci in cartItems)
             {
                 var detail = new OrderDetail

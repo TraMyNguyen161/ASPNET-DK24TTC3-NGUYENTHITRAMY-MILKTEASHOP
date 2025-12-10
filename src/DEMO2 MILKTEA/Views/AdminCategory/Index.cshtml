@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MILKTEASHOP.Models.Category>
+@{
+    ViewData["Title"] = "Quản lý danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="color:#e91e63">Quản lý danh mục</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div style="padding:10px; margin-bottom:10px; background:#fff0f5; border:1px solid #ffc8dd; color:#c33;">
+        @TempData["Error"]
+    </div>
+}
+
+<a href="/AdminCategory/Create" style="padding:8px 14px; background:#e91e63; color:white; border-radius:8px; text-decoration:none; font-weight:600;">
+    + Thêm danh mục
+</a>
+
+<table class="table" style="width:100%; margin-top:12px; border-collapse:collapse;">
+    <thead>
+        <tr style="background:#ffe3ef;">
+            <th style="padding:10px; text-align:left">ID</th>
+            <th style="padding:10px; text-align:left">Tên danh mục</th>
+            <th style="padding:10px; text-align:left">Số sản phẩm</th>
+            <th style="padding:10px; text-align:left">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td style="padding:10px">@c.CategoryId</td>
+                <td style="padding:10px">@c.CategoryName</td>
+                <td style="padding:10px">@c.Products?.Count() </td>
+                <td style="padding:10px">
+                    <a href="/AdminCategory/Edit/@c.CategoryId" style="padding:6px 10px; background:#4caf50; color:white; border-radius:6px; text-decoration:none;">Sửa</a>
+                    <form method="post" action="/AdminCategory/Delete" style="display:inline;" onsubmit="return confirm('Xác nhận xóa?');">
+                        <input type="hidden" name="id" value="@c.CategoryId" />
+                        <button type="submit" style="padding:6px 10px; background:#f44336; color:white; border:none; border-radius:6px; cursor:pointer;">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

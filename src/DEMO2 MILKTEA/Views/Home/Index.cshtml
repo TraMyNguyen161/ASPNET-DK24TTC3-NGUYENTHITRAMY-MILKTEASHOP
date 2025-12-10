@@ -378,7 +378,9 @@
             <div class="nav-row">
                 <nav id="nav">
                     <a href="#" data-view="home" class="active">Trang chủ</a>
-                    <a href="/Product/List" data-view="products">Sản phẩm</a>
+                <a href="/Product/MilkTea">Trà sữa</a>
+                <a href="/Product/FruitTea">Trà trái cây</a>
+                <a href="/Product/Yogurt">Sữa chua</a>
                     <a asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
                     <a href="/News/Index" style="padding:8px 12px;border-radius:10px;font-weight:600;color:var(--pink-600);">
                         Tin tức
@@ -595,14 +597,7 @@
             const id = e.target.dataset.id;
             if(id){ addToCart(id); alert('Đã thêm sản phẩm vào giỏ hàng'); }
           }
-          if(e.target.closest('#nav a')){
-            e.preventDefault();
-            const v = e.target.dataset.view;
-            if(v) showView(v);
-            
-            document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('active'));
-            e.target.classList.add('active');
-          }
+         
           if(e.target.id==='cartBtn'){ showView('cart'); }
           if(e.target.dataset.op){
             const op = e.target.dataset.op; const id = e.target.dataset.id;

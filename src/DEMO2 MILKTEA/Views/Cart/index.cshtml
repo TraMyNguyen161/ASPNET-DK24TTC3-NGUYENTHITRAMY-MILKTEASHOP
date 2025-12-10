@@ -130,33 +130,24 @@
     }
     else
     {
-        <table id="cartTable">
-            <thead>
-                <tr>
-                    <th>Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>SL</th>
-                    <th>Topping</th>
-                    <th>Size</th>
-                    <th>Đường</th>
-                    <th>Đá</th>
-                    <th>Tạm tính</th>
-                    <th></th>
-                </tr>
-            </thead>
+        <table> <div class="cart-list">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+                var item = Model[i];
+                <div class="cart-item" data-index="@i" data-price="@item.Price">
+                    <div class="cart-header">
+                        <h3>@item.ProductName</h3>
+                        <a class="remove-btn" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId">Xóa</a>
+                    </div>
 
-            <tbody>
-                @for (int i = 0; i < Model.Count; i++)
-                {
-                    var item = Model[i];
-                    <tr data-index="@i" data-price="@item.Price">
-                        <td>@item.ProductName</td>
-                        <td>@item.Price.ToString("C")</td>
-                        <td>@item.Quantity</td>
-                        <td>
-                            <div class="topping-box">
-                                @foreach (var t in allToppings)
-                                {
+                    <p class="price">Giá: @item.Price.ToString("C")</p>
+                    <p class="qty">SL: @item.Quantity</p>
+
+                    <div class="cart-row">
+                        <strong>Topping:</strong>
+                        <div class="topping-box">
+                            @foreach (var t in allToppings)
+                            {
                                     var isChecked = item.SelectedToppingIds != null && item.SelectedToppingIds.Contains(t.ToppingId);
                                     <label>
                                         <input type="checkbox" class="topping-checkbox"
@@ -165,47 +156,47 @@
                                                value="@t.ToppingId" @(isChecked ? "checked" : "") />
                                         @t.ToppingName (@t.Price.ToString("C"))
                                     </label>
-                                }
-                            </div>
-                        </td>
-                        <td>
-                            <td>
-    <select class="size-select" data-product-id="@item.ProductId">
+                            }
+                        </div>
+                    </div>
+
+                    <div class="cart-options">
+                        <div>
+                            <label>Size:</label>
+                            <select class="size-select" data-product-id="@item.ProductId">
                                 <option value="S" selected="@(item.Size == "S")">S</option>
                                 <option value="M" selected="@(item.Size == "M")">M</option>
                                 <option value="L" selected="@(item.Size == "L")">L</option>
+                            </select>
+                        </div>
 
-    </select>
-</td>
-
-                        </td>
-                        <td>
+                        <div>
+                            <label>Đường:</label>
                             <select class="sugar-select" data-product-id="@item.ProductId">
                                 <option value="100" selected="@(item.SugarLevel == 100)">100</option>
                                 <option value="70" selected="@(item.SugarLevel == 70)">70</option>
                                 <option value="50" selected="@(item.SugarLevel == 50)">50</option>
+                            </select>
+                        </div>
 
-</select>
-
-
-                        </td>
-                        <td>
+                        <div>
+                            <label>Đá:</label>
                             <select class="ice-select" data-product-id="@item.ProductId">
                                 <option value="100" selected="@(item.IceLevel == 100)">100</option>
                                 <option value="50" selected="@(item.IceLevel == 50)">50</option>
                                 <option value="0" selected="@(item.IceLevel == 0)">0</option>
+                            </select>
+                        </div>
+                    </div>
 
-</select>
+                    <p class="subtotal-row">
+                        <strong>Tạm tính: </strong>
+                        <span class="subtotal"></span>
+                    </p>
+                </div>
+        }
+    </div>
 
-
-                        </td>
-                        <td class="subtotal"></td>
-                        <td>
-                            <a class="remove-btn" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId">Xóa</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
         </table>
 
         <div class="total-box">
@@ -219,64 +210,73 @@
 <script>
     function updateCartTotals() {
         let total = 0;
-        document.querySelectorAll('#cartTable tbody tr').forEach(tr => {
-            const price = parseFloat(tr.dataset.price);
-            const qty = parseInt(tr.children[2].innerText);
+
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const price = parseFloat(item.dataset.price);
+            const qty = parseInt(item.querySelector('.qty').innerText.replace("SL: ", ""));
             let toppingTotal = 0;
 
-            tr.querySelectorAll('.topping-checkbox').forEach(cb => {
-                if(cb.checked) toppingTotal += parseFloat(cb.dataset.toppingPrice);
+            item.querySelectorAll('.topping-checkbox').forEach(cb => {
+                if (cb.checked)
+                    toppingTotal += parseFloat(cb.dataset.toppingPrice);
             });
 
             const subtotal = (price * qty) + toppingTotal;
-            tr.querySelector('.subtotal').innerText = subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+            item.querySelector('.subtotal').innerText =
+                subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
             total += subtotal;
         });
 
-        document.getElementById('cartTotal').innerText = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        document.getElementById('cartTotal').innerText =
+            total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
 
-    
+    // Topping event
     document.querySelectorAll('.topping-checkbox').forEach(cb => {
         cb.addEventListener('change', updateCartTotals);
     });
 
-    
+    // Size update
     document.querySelectorAll('.size-select').forEach(select => {
-        select.addEventListener('change', function() {
+        select.addEventListener('change', function () {
             const productId = this.dataset.productId;
             const size = this.value;
+
             fetch('/Cart/UpdateSize', {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId, size })
-            }).then(() => updateCartTotals());
+            }).then(updateCartTotals);
         });
     });
 
-    
+    // Sugar update
     document.querySelectorAll('.sugar-select').forEach(select => {
-        select.addEventListener('change', function() {
+        select.addEventListener('change', function () {
             const productId = this.dataset.productId;
             const sugar = this.value;
+
             fetch('/Cart/UpdateSugar', {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId, sugar })
-            }).then(() => updateCartTotals());
+            }).then(updateCartTotals);
         });
     });
 
-   
+    // Ice update
     document.querySelectorAll('.ice-select').forEach(select => {
-        select.addEventListener('change', function() {
+        select.addEventListener('change', function () {
             const productId = this.dataset.productId;
             const ice = this.value;
+
             fetch('/Cart/UpdateIce', {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId, ice })
-            }).then(() => updateCartTotals());
+            }).then(updateCartTotals);
         });
     });
 

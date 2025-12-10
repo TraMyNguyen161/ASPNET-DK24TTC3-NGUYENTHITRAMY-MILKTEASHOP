@@ -17,19 +17,19 @@ namespace MILKTEASHOP.Models
         public int OrderDetailId { get; set; }
 
         public int? OrderId { get; set; }
+
         public int? ProductId { get; set; }
 
+       
         [StringLength(10)]
         public string Size { get; set; } = string.Empty;
 
-    
         public int? SugarLevel { get; set; }
-
-     
         public int? IceLevel { get; set; }
-
+        
         public int Quantity { get; set; }
 
+        
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? PriceAtOrder { get; set; }
 
@@ -39,6 +39,7 @@ namespace MILKTEASHOP.Models
         [ForeignKey("ProductId")]
         public virtual Product? Product { get; set; }
 
+       
         public virtual ICollection<OrderDetailTopping> OrderDetailToppings { get; set; }
     }
 }

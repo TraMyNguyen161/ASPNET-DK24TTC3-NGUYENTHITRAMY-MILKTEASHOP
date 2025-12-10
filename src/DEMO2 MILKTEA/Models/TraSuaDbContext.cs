@@ -15,7 +15,7 @@ namespace MILKTEASHOP.Models
             : base(options)
         {
         }
-
+        
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Topping> Toppings { get; set; } = null!;

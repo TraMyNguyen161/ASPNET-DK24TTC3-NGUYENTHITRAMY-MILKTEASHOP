@@ -88,6 +88,43 @@ namespace MILKTEASHOP.Controllers
 
             return View("List", products); 
         }
+        public IActionResult MilkTea()
+        {
+            ViewBag.Categories = _context.Categories.ToList();
+
+            var data = _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.CategoryName == "Trà sữa")
+                .ToList();
+
+            return View("CategoryView", data);
+        }
+
+        public IActionResult FruitTea()
+        {
+            ViewBag.Categories = _context.Categories.ToList();
+
+            var data = _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.CategoryName == "Trà trái cây")
+                .ToList();
+
+            return View("CategoryView", data);
+        }
+
+        public IActionResult Yogurt()
+        {
+            ViewBag.Categories = _context.Categories.ToList();
+
+            var data = _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.CategoryName == "Sữa chua")
+                .ToList();
+
+            return View("CategoryView", data);
+        }
+
+
 
 
     }

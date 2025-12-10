@@ -13,6 +13,7 @@ namespace MILKTEASHOP.Controllers
             _context = context;
         }
 
+        
         public IActionResult Add(int id, string size = "M", string sugar = "100", string ice = "100")
         {
             var product = _context.Products.Find(id);
@@ -20,31 +21,55 @@ namespace MILKTEASHOP.Controllers
 
             var cart = GetCart();
 
-            var item = new CartItem
-            {
-                ProductId = product.ProductId,
-                ProductName = product.ProductName,
-                ImageUrl = product.ImageUrl,
-                Price = product.BasePrice,
-                Quantity = 1,
-                Size = size,
-                SugarLevel = int.Parse(sugar),
-                IceLevel = int.Parse(ice)
-            };
+           
+            var existing = cart.FirstOrDefault(x =>
+                x.ProductId == id &&
+                x.Size == size &&
+                x.SugarLevel == int.Parse(sugar) &&
+                x.IceLevel == int.Parse(ice)
+            );
 
-            cart.Add(item);
+            if (existing != null)
+            {
+                existing.Quantity++;
+            }
+            else
+            {
+                var item = new CartItem
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    ImageUrl = product.ImageUrl,
+                    Price = product.BasePrice,
+                    Quantity = 1,
+                    Size = size,
+                    SugarLevel = int.Parse(sugar),
+                    IceLevel = int.Parse(ice),
+                    SelectedToppingIds = new List<int>()
+                };
+
+                cart.Add(item);
+            }
+
             SaveCart(cart);
             return RedirectToAction("Index");
         }
 
-
+        
         private List<CartItem> GetCart()
         {
             var data = HttpContext.Session.GetString("CART");
-            if (data == null)
+            if (string.IsNullOrEmpty(data))
                 return new List<CartItem>();
 
-            return JsonConvert.DeserializeObject<List<CartItem>>(data);
+            try
+            {
+                return JsonConvert.DeserializeObject<List<CartItem>>(data);
+            }
+            catch
+            {
+                return new List<CartItem>();
+            }
         }
 
         private void SaveCart(List<CartItem> cart)
@@ -74,21 +99,18 @@ namespace MILKTEASHOP.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateToppings(List<CartItem> CartItems)
+        public IActionResult UpdateToppings(int productId, List<int> toppingIds)
         {
             var cart = GetCart();
+            var item = cart.FirstOrDefault(x => x.ProductId == productId);
 
-            foreach (var ci in CartItems)
+            if (item != null)
             {
-                var existing = cart.FirstOrDefault(x => x.ProductId == ci.ProductId);
-                if (existing != null)
-                {
-                    existing.SelectedToppingIds = ci.SelectedToppingIds ?? new List<int>();
-                }
+                item.SelectedToppingIds = toppingIds ?? new List<int>();
+                SaveCart(cart);
             }
 
-            SaveCart(cart);
-            return RedirectToAction("Index");
+            return Ok();
         }
 
         [HttpPost]
@@ -114,13 +136,14 @@ namespace MILKTEASHOP.Controllers
 
             if (item != null)
             {
-                item.SugarLevel = int.Parse(sugar); 
+                item.SugarLevel = int.Parse(sugar);
                 SaveCart(cart);
             }
 
             return Ok();
         }
 
+       
         [HttpPost]
         public IActionResult UpdateIce(int productId, string ice)
         {
@@ -129,7 +152,7 @@ namespace MILKTEASHOP.Controllers
 
             if (item != null)
             {
-                item.IceLevel = int.Parse(ice);   
+                item.IceLevel = int.Parse(ice);
                 SaveCart(cart);
             }
 

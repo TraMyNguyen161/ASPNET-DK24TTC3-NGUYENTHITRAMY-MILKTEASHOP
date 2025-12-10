@@ -1,0 +1,20 @@
+﻿@model MILKTEASHOP.Models.Category
+@{
+    ViewData["Title"] = "Sửa danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="color:#e91e63">Sửa danh mục</h2>
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+    <div>
+        <label>Tên danh mục</label><br />
+        <input type="text" name="CategoryName" value="@Model.CategoryName" required style="padding:8px; width:100%; border-radius:8px; border:1px solid #ffd0e3;" />
+        @Html.ValidationMessageFor(m => m.CategoryName)
+    </div>
+
+    <div style="margin-top:12px;">
+        <button type="submit" style="padding:8px 14px; background:#4caf50; color:white; border-radius:8px; border:none;">Cập nhật</button>
+        <a href="/AdminCategory/Index" style="margin-left:10px;">Hủy</a>
+    </div>
+</form>

@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MILKTEASHOP.Models
 {
@@ -18,7 +17,10 @@ namespace MILKTEASHOP.Models
         public string Size { get; set; } = string.Empty;
 
         public int SugarLevel { get; set; }
+
         public int IceLevel { get; set; }
+
+       
         public List<int> SelectedToppingIds { get; set; } = new List<int>();
 
         public CartItem Clone()
@@ -36,8 +38,5 @@ namespace MILKTEASHOP.Models
                 SelectedToppingIds = new List<int>(this.SelectedToppingIds)
             };
         }
-
     }
-
-
 }

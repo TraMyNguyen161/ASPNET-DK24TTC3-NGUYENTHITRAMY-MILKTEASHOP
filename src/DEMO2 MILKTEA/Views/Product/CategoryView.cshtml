@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MILKTEASHOP.Models.Product>
+
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .card {
+        background: #fff5f8;
+        border: 1px solid #ffd0e3;
+        border-radius: 16px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(255,150,180,0.15);
+        transition: 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(255,150,180,0.25);
+        }
+
+    .thumb img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .muted {
+        color: #777;
+        margin-bottom: 6px;
+    }
+
+    .meta {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+    }
+
+    .price {
+        color: #e91e63;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .add {
+        background: #ff7eb9;
+        padding: 6px 12px;
+        border-radius: 10px;
+        color: white;
+        text-decoration: none;
+    }
+
+        .add:hover {
+            background: #ff4f9a;
+        }
+
+    .sidebar {
+        background: #fff0f5;
+        padding: 15px;
+        border-radius: 14px;
+        border: 1px solid #ffc8dd;
+        width: 230px;
+        height: fit-content;
+    }
+</style>
+
+<div style="display:flex; gap:25px">
+
+    <aside class="sidebar">
+        <h3 style="color:#e91e63">Danh mục sản phẩm</h3>
+        <ul style="list-style:none; padding-left:0">
+            @foreach (var cat in ViewBag.Categories)
+            {
+                <li style="margin:8px 0">
+                    <a href="/Product/Category/@cat.CategoryId"
+                       style="text-decoration:none; color:#d63384; font-weight:500">
+                        @cat.CategoryName
+                    </a>
+                </li>
+            }
+        </ul>
+    </aside>
+
+    <div style="flex:1">
+        <h2 style="margin-bottom:10px">@ViewBag.Title</h2>
+
+        <div class="grid">
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <div class="thumb">
+                        <a href="/Product/Detail/@item.ProductId">
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/150" : item.ImageUrl)" />
+                        </a>
+                    </div>
+
+                    <div style="font-weight:700">@item.ProductName</div>
+                    <div class="muted">@item.Category?.CategoryName</div>
+
+                    <div class="muted" style="font-size:12px; max-height:40px; overflow:hidden;">
+                        @item.Description
+                    </div>
+
+                    <div class="meta">
+                        <div class="price">@item.BasePrice.ToString("#,##0")₫</div>
+                        <a href="/Cart/Add/@item.ProductId" class="add">Thêm</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
